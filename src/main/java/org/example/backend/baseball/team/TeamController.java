@@ -1,0 +1,34 @@
+package org.example.backend.baseball.team;
+
+import lombok.RequiredArgsConstructor;
+
+import org.example.backend.baseball.team.crawling.CrawlingService;
+import org.example.backend.baseball.team.entity.Team;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/KBO/teams")
+@RequiredArgsConstructor
+public class TeamController {
+
+    private final TeamService teamService;
+    private final CrawlingService crawlingService;
+    private final TeamRepository teamRepository;
+
+    @GetMapping("/calculate")
+    public void updateTeamRank(){
+        teamService.updateTeamRank();
+    }
+
+    @GetMapping("/crawling")
+    public void runCrawling() {
+        String[] teamCodes = {"LG", "HH", "SK", "SS", "KT", "LT", "NC", "HT", "OB", "WO"};
+        List<Team> teams = crawlingService.crawlTeams(teamCodes);
+
+        teamRepository.saveAll(teams);
+    }
+
+}
