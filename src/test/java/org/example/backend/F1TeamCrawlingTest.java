@@ -34,9 +34,9 @@ public class F1TeamCrawlingTest {
         private final String seasonPodiums;
         private final String careerWins;
         private final String careerPodiums;
-        private final String url;
+        private final String constructorChampionship;
 
-        public TeamCrawlingDto(String name, String imageUrl, String seasonRank, String seasonPoints, String seasonWins, String seasonPodiums, String careerWins, String careerPodiums, String url) {
+        public TeamCrawlingDto(String name, String imageUrl, String seasonRank, String seasonPoints, String seasonWins, String seasonPodiums, String careerWins, String careerPodiums, String constructorChampionship) {
             this.name = name;
             this.imageUrl = imageUrl;
             this.seasonRank = seasonRank;
@@ -45,7 +45,7 @@ public class F1TeamCrawlingTest {
             this.seasonPodiums = seasonPodiums;
             this.careerWins = careerWins;
             this.careerPodiums = careerPodiums;
-            this.url = url;
+            this.constructorChampionship = constructorChampionship;
         }
 
         @Override
@@ -58,7 +58,8 @@ public class F1TeamCrawlingTest {
                     "\n시즌 우승: " + seasonWins +
                     "\n시즌 포디움: " + seasonPodiums +
                     "\n역대 우승: " + careerWins +
-                    "\n역대 포디움: " + careerPodiums;
+                    "\n역대 포디움: " + careerPodiums +
+                    "\n컨스트럭터 챔피언십: " + constructorChampionship;
         }
     }
 
@@ -100,6 +101,7 @@ public class F1TeamCrawlingTest {
                 String seasonPodiums = driver.findElement(By.xpath("//*[@id=\"statistics\"]/div/div/div/div[2]/div/div[1]/div/div[1]/dl[2]/div[4]/dd")).getText();
                 String careerPodiums = driver.findElement(By.xpath("//*[@id=\"statistics\"]/div/div/div/div[2]/div/div[3]/div/dl/div[4]/dd")).getText();
                 String highestFinish = driver.findElement(By.xpath("//*[@id=\"statistics\"]/div/div/div/div[2]/div/div[3]/div/dl/div[5]/dd")).getText();
+                String constructorChampionship = driver.findElement(By.xpath("//*[@id=\"statistics\"]/div/div/div/div[2]/div/div[3]/div/dl/div[7]/dd")).getText();
                 String careerWins;
                 if (highestFinish.startsWith("1 (x"))
                     careerWins = highestFinish.substring(highestFinish.indexOf("(x") + 2, highestFinish.indexOf(')'));
@@ -117,7 +119,7 @@ public class F1TeamCrawlingTest {
                         seasonPodiums,
                         careerWins,
                         careerPodiums,
-                        basicInfo.getUrl()
+                        constructorChampionship
                 ));
             }
 
