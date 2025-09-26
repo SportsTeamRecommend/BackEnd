@@ -1,10 +1,11 @@
-package org.example.backend.baseball.team.entity;
+package org.example.backend.baseball.team;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.example.backend.baseball.team.crawling.entity.Player;
+import org.example.backend.baseball.crawling.dto.CrawledPlayer;
+import org.example.backend.common.weight.entity.TeamWeight;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +25,7 @@ public class Team {
     private Double pastAvgRank;
 
     @Transient
-    private List<Player> players = new ArrayList<>();
+    private List<CrawledPlayer> crawledPlayers = new ArrayList<>();
 
     @OneToOne(mappedBy = "team", cascade = CascadeType.ALL)
     private TeamWeight weight;
@@ -34,7 +35,7 @@ public class Team {
         this.teamName = teamName;
     }
 
-    public void addPlayer(Player player) {
-        players.add(player);
+    public void addPlayer(CrawledPlayer crawledPlayer) {
+        crawledPlayers.add(crawledPlayer);
     }
 }

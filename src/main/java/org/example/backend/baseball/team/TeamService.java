@@ -2,7 +2,6 @@ package org.example.backend.baseball.team;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.example.backend.baseball.team.entity.Team;
 import org.springframework.stereotype.Service;
 
 @Service
