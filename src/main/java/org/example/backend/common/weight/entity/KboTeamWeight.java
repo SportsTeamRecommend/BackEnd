@@ -10,7 +10,7 @@ import org.example.backend.baseball.team.Team;
 @Entity
 @Getter @Setter @NoArgsConstructor
 @AllArgsConstructor
-public class TeamWeight {
+public class KboTeamWeight {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
