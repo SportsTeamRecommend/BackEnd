@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.example.backend.baseball.crawling.dto.CrawledPlayer;
-import org.example.backend.common.weight.entity.TeamWeight;
+import org.example.backend.common.weight.entity.KboTeamWeight;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +28,7 @@ public class Team {
     private List<CrawledPlayer> crawledPlayers = new ArrayList<>();
 
     @OneToOne(mappedBy = "team", cascade = CascadeType.ALL)
-    private TeamWeight weight;
+    private KboTeamWeight weight;
 
     public Team(String teamCode, String teamName) {
         this.teamCode = teamCode;
