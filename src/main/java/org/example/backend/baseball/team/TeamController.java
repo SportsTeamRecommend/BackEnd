@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+// TODO : 스케쥴러 대체용, 배포시 삭제할 것
+
 @RestController
 @RequestMapping("/KBO/teams")
 @RequiredArgsConstructor

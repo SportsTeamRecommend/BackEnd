@@ -1,8 +1,8 @@
-package org.example.backend.baseball.team.crawling;
+package org.example.backend.baseball.crawling.service;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.example.backend.baseball.team.crawling.crawler.Crawler;
-import org.example.backend.baseball.team.entity.Team;
+import org.example.backend.baseball.crawling.crawler.Crawler;
+import org.example.backend.baseball.team.Team;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
@@ -49,8 +49,8 @@ class CrawlingManager {
         if (source.getCurrentRank() != null) {
             target.setCurrentRank(source.getCurrentRank());
         }
-        if (source.getPlayers() != null && !source.getPlayers().isEmpty()) {
-            target.getPlayers().addAll(source.getPlayers());
+        if (source.getCrawledPlayers() != null && !source.getCrawledPlayers().isEmpty()) {
+            target.getCrawledPlayers().addAll(source.getCrawledPlayers());
         }
     }
 

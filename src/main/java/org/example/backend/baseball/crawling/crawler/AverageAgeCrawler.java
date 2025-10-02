@@ -1,7 +1,7 @@
-package org.example.backend.baseball.team.crawling.crawler;
+package org.example.backend.baseball.crawling.crawler;
 
-import org.example.backend.baseball.team.crawling.entity.Player;
-import org.example.backend.baseball.team.entity.Team;
+import org.example.backend.baseball.crawling.dto.CrawledPlayer;
+import org.example.backend.baseball.team.Team;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -61,7 +61,7 @@ public class AverageAgeCrawler implements Crawler {
 
                     Integer age = tryParseKoreanAge(birth);
                     if (age != null) {
-                        team.getPlayers().add(new Player(name, age));
+                        team.getCrawledPlayers().add(new CrawledPlayer(name, age));
                         ages.add(age);
                     }
                 }
