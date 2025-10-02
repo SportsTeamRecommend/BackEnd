@@ -1,83 +1,36 @@
-package org.example.backend;
+package org.example.backend.f1.crawling;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.junit.jupiter.api.Test;
-import org.openqa.selenium.*;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import org.example.backend.f1.driver.DriverRepository;
+import org.example.backend.f1.driver.dto.DriverCrawlingDto;
+import org.example.backend.f1.driver.entity.Driver;
+import org.example.backend.f1.team.F1TeamRepository;
+import org.example.backend.f1.team.entity.F1Team;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-public class F1DriverCrawlingTest {
+@Service
+public class DriverCrawlingService {
 
-    private static class DriverBasicInfo {
-        private final String name;
-        private final String team;
-        private final String url;
+    DriverRepository driverRepository;
+    F1TeamRepository teamRepository;
 
-        public DriverBasicInfo(String name, String team, String url) {
-            this.name = name;
-            this.team = team;
-            this.url = url;
-        }
-        public String getName() { return name; }
-        public String getTeam() { return team; }
-        public String getUrl() { return url; }
+    @Autowired
+    public DriverCrawlingService(DriverRepository driverRepository, F1TeamRepository teamRepository) {
+        this.driverRepository = driverRepository;
+        this.teamRepository = teamRepository;
     }
 
-    private static class DriverCrawlingDto {
-        private final String name;
-        private final String team;
-        private final String dateOfBirth;
-        private final String imageUrl;
-        private final String seasonRank;
-        private final String seasonPoints;
-        private final String seasonWins;
-        private final String seasonPodiums;
-        private final String careerWins;
-        private final String careerPodiums;
-        private final String driverChampionship;
-
-        public DriverCrawlingDto(String name, String team, String dateOfBirth, String imageUrl, String seasonRank, String seasonPoints, String seasonWins, String seasonPodiums, String careerWins, String careerPodiums, String driverChampionship) {
-            this.name = name;
-            this.team = team;
-            this.dateOfBirth = dateOfBirth;
-            this.imageUrl = imageUrl;
-            this.seasonRank = seasonRank;
-            this.seasonPoints = seasonPoints;
-            this.seasonWins = seasonWins;
-            this.seasonPodiums = seasonPodiums;
-            this.careerWins = careerWins;
-            this.careerPodiums = careerPodiums;
-            this.driverChampionship = driverChampionship;
-        }
-
-        @Override
-        public String toString() {
-            return "\n==========================================" +
-                    "\n이름: " + name +
-                    "\n팀: " + team +
-                    "\n나이(생년월일): " + dateOfBirth +
-                    "\n이미지: " + imageUrl +
-                    "\n시즌 순위: " + seasonRank +
-                    "\n시즌 점수: " + seasonPoints +
-                    "\n시즌 우승: " + seasonWins +
-                    "\n시즌 포디움: " + seasonPodiums +
-                    "\n역대 우승: " + careerWins +
-                    "\n역대 포디움: " + careerPodiums +
-                    "\n드라이버 챔피언십: " + driverChampionship;
-        }
-
-        public String getDriverChampionship() {
-            return driverChampionship;
-        }
-    }
-
-    @Test
-    void DriverCrawlingTest() {
+    void crawlingDriverData() {
         WebDriver driver = null;
         try {
             WebDriverManager.chromedriver().setup();
@@ -128,9 +81,10 @@ public class F1DriverCrawlingTest {
                 }
                 else careerWins = "0";
 
+                F1Team f1Team = teamRepository.findByName(basicInfo.getTeam());
                 allDriverDetails.add(new DriverCrawlingDto(
                         basicInfo.getName(),
-                        basicInfo.getTeam(),
+                        f1Team,
                         dateOfBirth,
                         imageUrl,
                         seasonRank,
@@ -145,6 +99,10 @@ public class F1DriverCrawlingTest {
 
             System.out.println("\n\n=== 최종 수집된 드라이버 DTO 목록 (" + allDriverDetails.size() + "명) ===");
             allDriverDetails.forEach(System.out::println);
+
+            for(DriverCrawlingDto driverCrawlingDto : allDriverDetails) {
+                driverRepository.save(new Driver(driverCrawlingDto));
+            }
 
         } finally {
             if (driver != null) {

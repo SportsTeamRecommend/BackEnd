@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 
 import org.example.backend.baseball.team.crawling.CrawlingService;
 import org.example.backend.baseball.team.entity.Team;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

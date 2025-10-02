@@ -1,70 +1,32 @@
-package org.example.backend;
+package org.example.backend.f1.crawling;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.junit.jupiter.api.Test;
-import org.openqa.selenium.*;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import org.example.backend.f1.team.F1TeamRepository;
+import org.example.backend.f1.team.dto.F1TeamCrawlingDto;
+import org.example.backend.f1.team.entity.F1Team;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-public class F1TeamCrawlingTest {
+@Service
+public class TeamCrawlingService {
 
-    private static class TeamBasicInfo {
-        private final String name;
-        private final String url;
+    F1TeamRepository teamRepository;
 
-        public TeamBasicInfo(String name, String url) {
-            this.name = name;
-            this.url = url;
-        }
-        public String getName() { return name; }
-        public String getUrl() { return url; }
+    @Autowired
+    public TeamCrawlingService(F1TeamRepository teamRepository) {
+        this.teamRepository = teamRepository;
     }
 
-    private static class TeamCrawlingDto {
-        private final String name;
-        private final String imageUrl;
-        private final String seasonRank;
-        private final String seasonPoints;
-        private final String seasonWins;
-        private final String seasonPodiums;
-        private final String careerWins;
-        private final String careerPodiums;
-        private final String constructorChampionship;
-
-        public TeamCrawlingDto(String name, String imageUrl, String seasonRank, String seasonPoints, String seasonWins, String seasonPodiums, String careerWins, String careerPodiums, String constructorChampionship) {
-            this.name = name;
-            this.imageUrl = imageUrl;
-            this.seasonRank = seasonRank;
-            this.seasonPoints = seasonPoints;
-            this.seasonWins = seasonWins;
-            this.seasonPodiums = seasonPodiums;
-            this.careerWins = careerWins;
-            this.careerPodiums = careerPodiums;
-            this.constructorChampionship = constructorChampionship;
-        }
-
-        @Override
-        public String toString() {
-            return "\n==========================================" +
-                    "\n이름: " + name +
-                    "\n이미지: " + imageUrl +
-                    "\n시즌 순위: " + seasonRank +
-                    "\n시즌 점수: " + seasonPoints +
-                    "\n시즌 우승: " + seasonWins +
-                    "\n시즌 포디움: " + seasonPodiums +
-                    "\n역대 우승: " + careerWins +
-                    "\n역대 포디움: " + careerPodiums +
-                    "\n컨스트럭터 챔피언십: " + constructorChampionship;
-        }
-    }
-
-    @Test
-    void DriverCrawlingTest() {
+    void crawlingTeamData() {
         WebDriver driver = null;
         try {
             WebDriverManager.chromedriver().setup();
@@ -78,17 +40,17 @@ public class F1TeamCrawlingTest {
             List<WebElement> teamCards = driver.findElements(By.cssSelector(teamCardSelector));
             System.out.println("총 " + teamCards.size() + "명의 팀 카드를 찾았습니다.");
 
-            List<TeamBasicInfo> teamBasics = new ArrayList<>();
+            List<F1TeamBasicInfo> teamBasics = new ArrayList<>();
             for (WebElement card : teamCards) {
                 String name = card.findElements(By.xpath(".//p")).get(0).getText();
                 String url = card.getAttribute("href");
-                teamBasics.add(new TeamBasicInfo(name, url));
+                teamBasics.add(new F1TeamBasicInfo(name, url));
             }
 
-            List<TeamCrawlingDto> allTeamDetails = new ArrayList<>();
+            List<F1TeamCrawlingDto> allTeamDetails = new ArrayList<>();
             System.out.println("\n--- 상세 정보 수집 시작 ---");
 
-            for (TeamBasicInfo basicInfo : teamBasics) {
+            for (F1TeamBasicInfo basicInfo : teamBasics) {
                 driver.get(basicInfo.getUrl());
                 wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id=\"statistics\"]/div")));
 
@@ -110,7 +72,7 @@ public class F1TeamCrawlingTest {
                 }
                 else careerWins = "0";
 
-                allTeamDetails.add(new TeamCrawlingDto(
+                allTeamDetails.add(new F1TeamCrawlingDto(
                         basicInfo.getName(),
                         imageUrl,
                         seasonRank,
@@ -126,10 +88,15 @@ public class F1TeamCrawlingTest {
             System.out.println("\n\n=== 최종 수집된 팀 DTO 목록 (" + allTeamDetails.size() + "팀) ===");
             allTeamDetails.forEach(System.out::println);
 
+            for(F1TeamCrawlingDto teamCrawlingDto : allTeamDetails) {
+                teamRepository.save(new F1Team(teamCrawlingDto));
+            }
+
         } finally {
             if (driver != null) {
                 driver.quit();
             }
         }
     }
+
 }

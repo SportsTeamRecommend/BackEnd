@@ -1,4 +1,4 @@
 package org.example.backend.f1.team;
 
-public interface TeamRepository {
+public class F1TeamController {
 }
