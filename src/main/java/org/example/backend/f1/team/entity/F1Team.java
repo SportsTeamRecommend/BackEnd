@@ -28,8 +28,9 @@ public class F1Team {
     private String totalWins;
     private String totalPodiums;
     private String constructorChampionship;
+    private Double avgRank;
 
-    @OneToMany(mappedBy = "f1Team")
+    @OneToMany(mappedBy = "team")
     private List<Driver> drivers = new ArrayList<>();
 
     public F1Team(F1TeamCrawlingDto teamCrawlingDto) {
@@ -42,5 +43,6 @@ public class F1Team {
         totalWins = teamCrawlingDto.careerWins();
         totalPodiums = teamCrawlingDto.careerPodiums();
         constructorChampionship = teamCrawlingDto.worldChampionship();
+        this.avgRank = teamCrawlingDto.avgRank();
     }
 }

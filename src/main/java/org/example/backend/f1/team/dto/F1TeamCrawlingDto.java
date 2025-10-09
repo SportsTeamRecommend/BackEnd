@@ -9,6 +9,7 @@ public record F1TeamCrawlingDto(
         String seasonPodiums,
         String careerWins,
         String careerPodiums,
-        String worldChampionship
+        String worldChampionship,
+        Double avgRank
 )
 { }

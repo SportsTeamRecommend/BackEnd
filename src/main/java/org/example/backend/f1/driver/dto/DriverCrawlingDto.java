@@ -4,7 +4,7 @@ import org.example.backend.f1.team.entity.F1Team;
 
 public record DriverCrawlingDto(
         String name,
-        F1Team f1Team,
+        F1Team team,
         String dateOfBirth,
         String imageUrl,
         String seasonPosition,
@@ -13,6 +13,7 @@ public record DriverCrawlingDto(
         String seasonPodiums,
         String careerWins,
         String careerPodiums,
-        String worldChampionship
+        String worldChampionship,
+        Double avgPoints
 )
 { }

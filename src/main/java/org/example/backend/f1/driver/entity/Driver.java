@@ -26,14 +26,15 @@ public class Driver {
     private String careerWins;
     private String careerPodiums;
     private String worldChampionship;
+    private Double avgPoints;
 
     @ManyToOne
     @JoinColumn(name = "team_id")
-    private F1Team f1Team;
+    private F1Team team;
 
     public Driver(DriverCrawlingDto driverCrawlingDto) {
         this.name = driverCrawlingDto.name();
-        this.f1Team = driverCrawlingDto.f1Team();
+        this.team = driverCrawlingDto.team();
         this.dateOfBirth = driverCrawlingDto.dateOfBirth();
         this.imageUrl = driverCrawlingDto.imageUrl();
         this.seasonPosition = driverCrawlingDto.seasonPosition();
@@ -43,5 +44,6 @@ public class Driver {
         this.careerWins = driverCrawlingDto.careerWins();
         this.careerPodiums = driverCrawlingDto.careerPodiums();
         this.worldChampionship = driverCrawlingDto.worldChampionship();
+        this.avgPoints = driverCrawlingDto.avgPoints();
     }
 }

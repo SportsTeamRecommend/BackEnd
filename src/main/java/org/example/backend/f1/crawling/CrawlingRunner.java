@@ -8,18 +8,18 @@ import org.springframework.stereotype.Component;
 @Component
 public class CrawlingRunner implements ApplicationRunner {
 
-    private final TeamCrawlingService teamCrawlingService;
+    private final F1TeamCrawlingService f1TeamCrawlingService;
     private final DriverCrawlingService driverCrawlingService;
 
     @Autowired
-    CrawlingRunner(DriverCrawlingService driverCrawlingService, TeamCrawlingService teamCrawlingService) {
+    CrawlingRunner(DriverCrawlingService driverCrawlingService, F1TeamCrawlingService f1TeamCrawlingService) {
         this.driverCrawlingService = driverCrawlingService;
-        this.teamCrawlingService = teamCrawlingService;
+        this.f1TeamCrawlingService = f1TeamCrawlingService;
     }
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        teamCrawlingService.crawlingTeamData();
+        f1TeamCrawlingService.crawlingTeamData();
         driverCrawlingService.crawlingDriverData();
     }
 

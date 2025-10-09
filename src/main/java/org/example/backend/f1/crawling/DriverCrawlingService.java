@@ -10,6 +10,7 @@ import org.example.backend.f1.driver.entity.Driver;
 import org.example.backend.f1.team.F1TeamRepository;
 import org.example.backend.f1.team.entity.F1Team;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -81,6 +82,32 @@ public class DriverCrawlingService {
                 }
                 else careerWins = "0";
 
+                String[] nameParts = basicInfo.getName().split(" ");
+                String lastName = nameParts[nameParts.length - 1];
+
+                int sumPoints = Integer.parseInt(seasonPoints);
+                double count = 1;
+
+                driver.get("https://www.formula1.com/en/results/2024/drivers");
+                try {
+                    sumPoints += Integer.parseInt(driver.findElement(By.xpath("//table[contains(@class, 'f1-table')]/tbody/tr[contains(td[2], '" + lastName +"')]/td[5]")).getText());
+                    count += 1.0;
+
+                } catch (NoSuchElementException e) {
+                    System.out.println("목록에 해당 선수가 없어 건너뜁니다.");
+                }
+
+                driver.get("https://www.formula1.com/en/results/2024/drivers");
+                try {
+                    sumPoints += Integer.parseInt(driver.findElement(By.xpath("//table[contains(@class, 'f1-table')]/tbody/tr[contains(td[2], '" + lastName +"')]/td[5]")).getText());
+                    count += 1.0;
+
+                } catch (NoSuchElementException e) {
+                    System.out.println("목록에 해당 선수가 없어 건너뜁니다.");
+                }
+
+                double avgPoints = sumPoints / count;
+
                 F1Team f1Team = teamRepository.findByName(basicInfo.getTeam());
                 allDriverDetails.add(new DriverCrawlingDto(
                         basicInfo.getName(),
@@ -93,7 +120,8 @@ public class DriverCrawlingService {
                         seasonPodiums,
                         careerWins,
                         careerPodiums,
-                        driverChampionship
+                        driverChampionship,
+                        avgPoints
                 ));
             }
 

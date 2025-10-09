@@ -8,6 +8,7 @@ import org.example.backend.f1.team.F1TeamRepository;
 import org.example.backend.f1.team.dto.F1TeamCrawlingDto;
 import org.example.backend.f1.team.entity.F1Team;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -17,12 +18,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class TeamCrawlingService {
+public class F1TeamCrawlingService {
 
     F1TeamRepository teamRepository;
 
     @Autowired
-    public TeamCrawlingService(F1TeamRepository teamRepository) {
+    public F1TeamCrawlingService(F1TeamRepository teamRepository) {
         this.teamRepository = teamRepository;
     }
 
@@ -72,6 +73,29 @@ public class TeamCrawlingService {
                 }
                 else careerWins = "0";
 
+                int sumRank = Integer.parseInt(seasonRank.replaceAll("[^0-9]", ""));
+                double count = 1;
+
+                driver.get("https://www.formula1.com/en/results/2024/team");
+                try {
+                    sumRank += Integer.parseInt(driver.findElement(By.xpath("//table[contains(@class, 'f1-table')]/tbody/tr[contains(td[2], '" + basicInfo.getName() +"')]/td[1]")).getText());
+                    count += 1.0;
+
+                } catch (NoSuchElementException e) {
+                    System.out.println("목록에 해당 선수가 없어 건너뜁니다.");
+                }
+
+                driver.get("https://www.formula1.com/en/results/2023/team");
+                try {
+                    sumRank += Integer.parseInt(driver.findElement(By.xpath("//table[contains(@class, 'f1-table')]/tbody/tr[contains(td[2], '" + basicInfo.getName() +"')]/td[1]")).getText());
+                    count += 1.0;
+
+                } catch (NoSuchElementException e) {
+                    System.out.println("목록에 해당 팀이 없어 건너뜁니다.");
+                }
+
+                double avgRank = sumRank / count;
+
                 allTeamDetails.add(new F1TeamCrawlingDto(
                         basicInfo.getName(),
                         imageUrl,
@@ -81,7 +105,8 @@ public class TeamCrawlingService {
                         seasonPodiums,
                         careerWins,
                         careerPodiums,
-                        constructorChampionship
+                        constructorChampionship,
+                        avgRank
                 ));
             }
 
