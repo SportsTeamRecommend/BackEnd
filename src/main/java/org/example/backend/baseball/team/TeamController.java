@@ -2,7 +2,8 @@ package org.example.backend.baseball.team;
 
 import lombok.RequiredArgsConstructor;
 
-import org.example.backend.baseball.crawling.service.CrawlingService;
+import org.example.backend.baseball.team.crawling.CrawlingService;
+import org.example.backend.baseball.team.entity.Team;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
