@@ -2,13 +2,11 @@ package org.example.backend.baseball.team;
 
 import lombok.RequiredArgsConstructor;
 
-import org.example.backend.baseball.team.crawling.CrawlingService;
-import org.example.backend.baseball.team.entity.Team;
+
+import org.example.backend.baseball.crawling.service.CrawlingService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
-// TODO : 스케쥴러 대체용, 배포시 삭제할 것
 
 @RestController
 @RequestMapping("/KBO/teams")

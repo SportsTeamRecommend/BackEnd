@@ -1,8 +1,15 @@
 package org.example.backend.common.weight.service;
 
+import java.util.Random;
+import org.example.backend.common.weight.dto.UserF1RecommendRequest;
+import org.example.backend.common.weight.entity.F1TeamWeight;
 import org.example.backend.common.weight.entity.KboTeamWeight;
+import org.example.backend.common.weight.entity.UserF1Weight;
 import org.example.backend.common.weight.entity.UserKboWeight;
 import org.example.backend.common.weight.entity.WeightType;
+import org.example.backend.f1.team.F1TeamRepository;
+import org.example.backend.f1.team.entity.F1Team;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -13,7 +20,12 @@ import java.util.Map;
 @Service
 public class WeightService {
 
-    // TODO: 동점자 처리
+    F1TeamRepository f1TeamRepository;
+
+    @Autowired
+    public WeightService(F1TeamRepository f1TeamRepository) {
+        this.f1TeamRepository = f1TeamRepository;
+    }
 
     public List<Map.Entry<String, Double>> kboRankTeams(List<KboTeamWeight> kboTeamWeights, UserKboWeight userKboWeight) {
         Map<String, Double> scoreMap = new HashMap<>();
@@ -23,7 +35,23 @@ public class WeightService {
             scoreMap.put(teamWeight.getTeam().getTeamName(), score);
         }
 
-        // 점수 기준 내림차순 정렬
+        List<Map.Entry<String, Double>> rankedList = new ArrayList<>(scoreMap.entrySet());
+        rankedList.sort((a, b) -> Double.compare(b.getValue(), a.getValue()));
+
+        return rankedList;
+    }
+
+    public List<Map.Entry<String, Double>> f1RankTeams(List<F1TeamWeight> f1TeamWeights, UserF1RecommendRequest userF1RecommendRequest) {
+        Map<String, Double> scoreMap = new HashMap<>();
+        UserF1Weight userF1Weight = new UserF1Weight(userF1RecommendRequest);
+        List<F1Team> f1Teams = f1TeamRepository.findAll();
+
+        for (F1Team f1Team : f1Teams) {
+            Random random = new Random();
+            double score = random.nextDouble();
+            scoreMap.put(f1Team.getName(), score);
+        }
+
         List<Map.Entry<String, Double>> rankedList = new ArrayList<>(scoreMap.entrySet());
         rankedList.sort((a, b) -> Double.compare(b.getValue(), a.getValue()));
 

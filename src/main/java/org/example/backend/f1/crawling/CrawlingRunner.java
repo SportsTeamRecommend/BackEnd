@@ -3,6 +3,7 @@ package org.example.backend.f1.crawling;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -18,6 +19,7 @@ public class CrawlingRunner implements ApplicationRunner {
     }
 
     @Override
+    @Scheduled(cron = "0 0 0 * * *", zone = "Asia/Seoul")
     public void run(ApplicationArguments args) throws Exception {
         f1TeamCrawlingService.crawlingTeamData();
         driverCrawlingService.crawlingDriverData();
