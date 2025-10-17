@@ -1,4 +1,4 @@
-package org.example.backend.baseball.weight;
+package org.example.backend.common.weight.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -26,4 +26,7 @@ public class KboTeamWeight {
     private double region;        // 연고지
     private double fandom;        // 팬덤 규모
 
+    public double[] toVector() {
+        return new double[]{record, legacy, franchiseStar, growth, region, fandom};
+    }
 }

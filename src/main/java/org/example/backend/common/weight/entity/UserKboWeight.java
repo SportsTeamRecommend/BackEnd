@@ -1,8 +1,7 @@
-package org.example.backend.baseball.weight;
+package org.example.backend.common.weight.entity;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.example.backend.common.weight.entity.WeightType;
 
 // TODO : Setter 삭제 필요
 @Getter @Setter
@@ -25,4 +24,10 @@ public class UserKboWeight {
 
     private WeightType fandomPreference;         // 팬덤 선호
     private double fandomImportance;             // 팬덤 중요도
+
+
+    public double[] toVector() {
+        return new double[]{recordImportance, legacyImportance, franchiseStarImportance, growthImportance, regionImportance, fandomImportance};
+    }
+
 }
