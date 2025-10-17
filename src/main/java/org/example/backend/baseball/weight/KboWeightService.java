@@ -1,7 +1,5 @@
-package org.example.backend.common.weight.service;
+package org.example.backend.baseball.weight;
 
-import org.example.backend.common.weight.entity.KboTeamWeight;
-import org.example.backend.common.weight.entity.UserKboWeight;
 import org.example.backend.common.weight.entity.WeightType;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class WeightService {
+public class KboWeightService {
 
     // TODO: 동점자 처리
 
