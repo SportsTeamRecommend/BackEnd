@@ -1,8 +1,9 @@
 package org.example.backend.common.weight.service;
 
 import org.example.backend.baseball.team.Team;
-import org.example.backend.common.weight.entity.KboTeamWeight;
-import org.example.backend.common.weight.entity.UserKboWeight;
+import org.example.backend.baseball.weight.KboTeamWeight;
+import org.example.backend.baseball.weight.UserKboWeight;
+import org.example.backend.baseball.weight.KboWeightService;
 import org.example.backend.common.weight.entity.WeightType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -16,14 +17,14 @@ import java.util.Map;
 import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest
-class WeightServiceTest {
+class KboWeightServiceTest {
 
-    private WeightService weightService;
+    private KboWeightService kboWeightService;
     private List<KboTeamWeight> testTeamWeights;
 
     @BeforeEach
     void setUp() {
-        weightService = new WeightService();
+        kboWeightService = new KboWeightService();
         testTeamWeights = createTestTeamWeights();
     }
 
@@ -36,7 +37,7 @@ class WeightServiceTest {
         user.setRecordImportance(9.0);
 
         // when
-        List<Map.Entry<String, Double>> result = weightService.kboRankTeams(testTeamWeights, user);
+        List<Map.Entry<String, Double>> result = kboWeightService.kboRankTeams(testTeamWeights, user);
 
         // then
         assertThat(result).isNotEmpty();
@@ -55,7 +56,7 @@ class WeightServiceTest {
         user.setRecordImportance(8.0);
 
         // when
-        List<Map.Entry<String, Double>> result = weightService.kboRankTeams(testTeamWeights, user);
+        List<Map.Entry<String, Double>> result = kboWeightService.kboRankTeams(testTeamWeights, user);
 
         // then
         assertThat(result).isNotEmpty();
@@ -74,7 +75,7 @@ class WeightServiceTest {
         user.setLegacyImportance(10.0);
 
         // when
-        List<Map.Entry<String, Double>> result = weightService.kboRankTeams(testTeamWeights, user);
+        List<Map.Entry<String, Double>> result = kboWeightService.kboRankTeams(testTeamWeights, user);
 
         // then
         assertThat(result).isNotEmpty();
@@ -92,7 +93,7 @@ class WeightServiceTest {
         user.setGrowthImportance(8.0);
 
         // when
-        List<Map.Entry<String, Double>> result = weightService.kboRankTeams(testTeamWeights, user);
+        List<Map.Entry<String, Double>> result = kboWeightService.kboRankTeams(testTeamWeights, user);
 
         // then
         assertThat(result).isNotEmpty();
@@ -111,7 +112,7 @@ class WeightServiceTest {
         user.setGrowthImportance(7.0);
 
         // when
-        List<Map.Entry<String, Double>> result = weightService.kboRankTeams(testTeamWeights, user);
+        List<Map.Entry<String, Double>> result = kboWeightService.kboRankTeams(testTeamWeights, user);
 
         // then
         assertThat(result).isNotEmpty();
@@ -130,7 +131,7 @@ class WeightServiceTest {
         user.setFandomImportance(9.0);
 
         // when
-        List<Map.Entry<String, Double>> result = weightService.kboRankTeams(testTeamWeights, user);
+        List<Map.Entry<String, Double>> result = kboWeightService.kboRankTeams(testTeamWeights, user);
 
         // then
         assertThat(result).isNotEmpty();
@@ -151,7 +152,7 @@ class WeightServiceTest {
         user.setFandomImportance(6.0);
 
         // when
-        List<Map.Entry<String, Double>> result = weightService.kboRankTeams(testTeamWeights, user);
+        List<Map.Entry<String, Double>> result = kboWeightService.kboRankTeams(testTeamWeights, user);
 
         // then
         assertThat(result).isNotEmpty();
@@ -171,7 +172,7 @@ class WeightServiceTest {
         user.setLegacyImportance(9.0);
 
         // when
-        List<Map.Entry<String, Double>> result = weightService.kboRankTeams(testTeamWeights, user);
+        List<Map.Entry<String, Double>> result = kboWeightService.kboRankTeams(testTeamWeights, user);
 
         // then
         assertThat(result).isNotEmpty();
@@ -191,7 +192,7 @@ class WeightServiceTest {
         user.setFandomImportance(8.0);
 
         // when
-        List<Map.Entry<String, Double>> result = weightService.kboRankTeams(testTeamWeights, user);
+        List<Map.Entry<String, Double>> result = kboWeightService.kboRankTeams(testTeamWeights, user);
 
         // then
         assertThat(result).isNotEmpty();
@@ -215,7 +216,7 @@ class WeightServiceTest {
         user.setFandomImportance(7.0);
 
         // when
-        List<Map.Entry<String, Double>> result = weightService.kboRankTeams(testTeamWeights, user);
+        List<Map.Entry<String, Double>> result = kboWeightService.kboRankTeams(testTeamWeights, user);
 
         // then
         assertThat(result).isNotEmpty();
@@ -231,7 +232,7 @@ class WeightServiceTest {
         UserKboWeight user = createUser(); // 모든 값이 NONE
 
         // when
-        List<Map.Entry<String, Double>> result = weightService.kboRankTeams(testTeamWeights, user);
+        List<Map.Entry<String, Double>> result = kboWeightService.kboRankTeams(testTeamWeights, user);
 
         // then
         assertThat(result).isNotEmpty();
