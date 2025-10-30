@@ -23,7 +23,7 @@ class WeightServiceTest {
 
     @BeforeEach
     void setUp() {
-        weightService = new WeightService();
+        //weightService = new WeightService();
         testTeamWeights = createTestTeamWeights();
     }
 

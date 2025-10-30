@@ -7,6 +7,7 @@ import org.example.backend.common.weight.entity.KboTeamWeight;
 import org.example.backend.common.weight.entity.UserF1Weight;
 import org.example.backend.common.weight.entity.UserKboWeight;
 import org.example.backend.common.weight.entity.WeightType;
+import org.example.backend.f1.statistics.F1StatisticService;
 import org.example.backend.f1.team.F1TeamRepository;
 import org.example.backend.f1.team.entity.F1Team;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,10 +22,12 @@ import java.util.Map;
 public class WeightService {
 
     F1TeamRepository f1TeamRepository;
+    F1StatisticService f1StatisticService;
 
     @Autowired
-    public WeightService(F1TeamRepository f1TeamRepository) {
+    public WeightService(F1TeamRepository f1TeamRepository, F1StatisticService f1StatisticService) {
         this.f1TeamRepository = f1TeamRepository;
+        this.f1StatisticService = f1StatisticService;
     }
 
     public List<Map.Entry<String, Double>> kboRankTeams(List<KboTeamWeight> kboTeamWeights, UserKboWeight userKboWeight) {
@@ -54,6 +57,10 @@ public class WeightService {
 
         List<Map.Entry<String, Double>> rankedList = new ArrayList<>(scoreMap.entrySet());
         rankedList.sort((a, b) -> Double.compare(b.getValue(), a.getValue()));
+
+        String name = rankedList.get(0).getKey();
+        F1Team recommended = f1TeamRepository.findByName(name);
+        f1StatisticService.addRecommended(recommended);
 
         return rankedList;
     }
