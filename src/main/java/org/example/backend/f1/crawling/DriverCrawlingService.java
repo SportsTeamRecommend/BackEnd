@@ -14,6 +14,7 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,15 @@ public class DriverCrawlingService {
         WebDriver driver = null;
         try {
             WebDriverManager.chromedriver().setup();
-            driver = new ChromeDriver();
+
+            ChromeOptions options = new ChromeOptions();
+            options.addArguments("--headless");
+            options.addArguments("--no-sandbox");
+            options.addArguments("--disable-dev-shm-usage");
+            options.addArguments("--disable-gpu");
+            // === [끝] 옵션 추가 ===
+
+            driver = new ChromeDriver(options); // <--- 옵션을 적용합니다.
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
             driver.get("https://www.formula1.com/en/drivers.html");
