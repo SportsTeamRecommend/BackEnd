@@ -3,7 +3,8 @@ spring:
   application:
     name: backend
   profiles:
-    default: h2
+    default: mysql
+
 ---
 # H2 프로필
 spring:
@@ -25,19 +26,20 @@ spring:
       enabled: true
       path: /h2-console
 ---
+
 # MySQL 프로필
 spring:
   config:
     activate:
       on-profile: mysql
   datasource:
-    url: jdbc:mysql://localhost:3306/db
-    username: root
-    password: 1234
+    url: jdbc:mysql://localhost:3308/sports_team_recommend_db?useSSL=false&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true
+    username: "root"
+    password: "12345678"
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     show-sql: true
     properties:
       hibernate:

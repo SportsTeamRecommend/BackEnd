@@ -39,7 +39,7 @@ dependencies {
     implementation 'io.github.bonigarcia:webdrivermanager:6.1.0'
 
     // TODO : 임시
-    runtimeOnly 'com.h2database:h2'
+    // runtimeOnly 'com.h2database:h2'
 }
 
 tasks.named('test') {
