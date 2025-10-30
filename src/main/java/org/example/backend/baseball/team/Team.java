@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.example.backend.baseball.crawling.dto.CrawledPlayer;
-import org.example.backend.common.weight.entity.KboTeamWeight;
+import org.example.backend.baseball.weight.KboTeamWeight;
 
 import java.util.ArrayList;
 import java.util.List;

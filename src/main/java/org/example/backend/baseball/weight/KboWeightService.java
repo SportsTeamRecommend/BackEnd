@@ -1,16 +1,8 @@
 package org.example.backend.common.weight.service;
 
-import java.util.Random;
-import org.example.backend.common.weight.dto.UserF1RecommendRequest;
-import org.example.backend.common.weight.entity.F1TeamWeight;
 import org.example.backend.common.weight.entity.KboTeamWeight;
-import org.example.backend.common.weight.entity.UserF1Weight;
 import org.example.backend.common.weight.entity.UserKboWeight;
 import org.example.backend.common.weight.entity.WeightType;
-import org.example.backend.f1.statistics.F1StatisticService;
-import org.example.backend.f1.team.F1TeamRepository;
-import org.example.backend.f1.team.entity.F1Team;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -19,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class WeightService {
+public class KboWeightService {
 
     F1TeamRepository f1TeamRepository;
     F1StatisticService f1StatisticService;
@@ -38,6 +30,7 @@ public class WeightService {
             scoreMap.put(teamWeight.getTeam().getTeamName(), score);
         }
 
+        // 점수 기준 내림차순 정렬
         List<Map.Entry<String, Double>> rankedList = new ArrayList<>(scoreMap.entrySet());
         rankedList.sort((a, b) -> Double.compare(b.getValue(), a.getValue()));
 
