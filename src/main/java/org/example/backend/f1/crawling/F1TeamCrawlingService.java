@@ -12,6 +12,7 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,15 @@ public class F1TeamCrawlingService {
         WebDriver driver = null;
         try {
             WebDriverManager.chromedriver().setup();
-            driver = new ChromeDriver();
+
+            ChromeOptions options = new ChromeOptions();
+            options.addArguments("--headless"); // 1. Headless 모드 (필수)
+            options.addArguments("--no-sandbox"); // 2. 샌드박스 비활성화 (서버 환경)
+            options.addArguments("--disable-dev-shm-usage"); // 3. 공유 메모리 사용 비활성화 (서버 환경)
+            options.addArguments("--disable-gpu"); // (선택 사항) GPU 비활성화
+            // === [끝] 옵션 추가 ===
+
+            driver = new ChromeDriver(options); // <--- 옵션을 적용하여 드라이버를 생성합니다.
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
             driver.get("https://www.formula1.com/en/teams.html");
