@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: backend
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+    url: jdbc:mysql://sports-team-recommend-database.cbaksaomqhba.ap-northeast-2.rds.amazonaws.com
+    username: "root"
+    password: "sports1234!"
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        format_sql: true
+        show_sql: true
