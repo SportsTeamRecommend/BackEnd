@@ -1,5 +1,6 @@
 package org.example.backend.baseball.weight;
 
+import org.example.backend.baseball.table.KboTeamWeight;
 import org.example.backend.common.weight.entity.WeightType;
 import org.springframework.stereotype.Service;
 

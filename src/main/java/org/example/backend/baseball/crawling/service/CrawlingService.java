@@ -2,7 +2,7 @@ package org.example.backend.baseball.crawling.service;
 
 import org.example.backend.baseball.crawling.crawler.AverageAgeCrawler;
 import org.example.backend.baseball.crawling.crawler.TeamRankCrawler;
-import org.example.backend.baseball.team.Team;
+import org.example.backend.baseball.table.Team;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

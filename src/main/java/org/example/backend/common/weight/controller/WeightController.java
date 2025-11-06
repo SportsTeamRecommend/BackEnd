@@ -1,7 +1,7 @@
 package org.example.backend.common.weight.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.example.backend.baseball.weight.KboTeamWeight;
+import org.example.backend.baseball.table.KboTeamWeight;
 import org.example.backend.baseball.weight.UserKboWeight;
 import org.example.backend.baseball.weight.KboTeamWeightRepository;
 import org.example.backend.baseball.weight.KboWeightService;

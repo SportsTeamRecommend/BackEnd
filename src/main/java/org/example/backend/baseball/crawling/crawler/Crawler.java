@@ -1,6 +1,6 @@
 package org.example.backend.baseball.crawling.crawler;
 
-import org.example.backend.baseball.team.Team;
+import org.example.backend.baseball.table.Team;
 import org.openqa.selenium.WebDriver;
 
 public interface Crawler {

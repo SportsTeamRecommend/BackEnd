@@ -3,6 +3,7 @@ package org.example.backend.baseball.team;
 import lombok.RequiredArgsConstructor;
 
 import org.example.backend.baseball.crawling.service.CrawlingService;
+import org.example.backend.baseball.table.Team;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,8 +19,8 @@ public class TeamController {
     private final CrawlingService crawlingService;
     private final TeamRepository teamRepository;
 
-    @GetMapping("/calculate")
-    public void updateTeamRank(){
+    @GetMapping("/update/rank")
+    public void updateTeamRank() {
         teamService.updateTeamRank();
     }
 
@@ -29,6 +30,11 @@ public class TeamController {
         List<Team> teams = crawlingService.crawlTeams(teamCodes);
 
         teamRepository.saveAll(teams);
+    }
+
+    @GetMapping("calculate/entity-weight")
+    public void calculateEntityWeight() {
+        teamService.calculateEntityWeight();
     }
 
 }

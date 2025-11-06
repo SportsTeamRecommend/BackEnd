@@ -1,11 +1,10 @@
-package org.example.backend.baseball.weight;
+package org.example.backend.baseball.table;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.example.backend.baseball.team.Team;
 
 @Entity
 @Getter @Setter @NoArgsConstructor

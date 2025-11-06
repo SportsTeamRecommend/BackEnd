@@ -1,7 +1,7 @@
 package org.example.backend.common.weight.service;
 
-import org.example.backend.baseball.team.Team;
-import org.example.backend.baseball.weight.KboTeamWeight;
+import org.example.backend.baseball.table.Team;
+import org.example.backend.baseball.table.KboTeamWeight;
 import org.example.backend.baseball.weight.UserKboWeight;
 import org.example.backend.baseball.weight.KboWeightService;
 import org.example.backend.common.weight.entity.WeightType;
@@ -290,7 +290,7 @@ class KboWeightServiceTest {
     private void printResult(List<Map.Entry<String, Double>> result) {
         for (int i = 0; i < result.size(); i++) {
             Map.Entry<String, Double> entry = result.get(i);
-            System.out.printf("%d위: %s (점수: %.2f)\n\n", i + 1, entry.getKey(), entry.getValue() * 100);
+            System.out.printf("%d위: %s (점수: %.2f)\n", i + 1, entry.getKey(), entry.getValue() * 100);
         }
     }
 }
