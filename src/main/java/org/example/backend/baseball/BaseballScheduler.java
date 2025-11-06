@@ -1,9 +1,11 @@
-package org.example.backend.baseball.team;
+package org.example.backend.baseball;
 
 import lombok.RequiredArgsConstructor;
 
 import org.example.backend.baseball.crawling.service.CrawlingService;
 import org.example.backend.baseball.table.Team;
+import org.example.backend.baseball.team.TeamRepository;
+import org.example.backend.baseball.team.TeamService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,20 +13,20 @@ import java.util.List;
 // TODO : 스케쥴러 대체용, 배포시 삭제할 것
 
 @RestController
-@RequestMapping("/KBO/teams")
+@RequestMapping("/api/kbo")
 @RequiredArgsConstructor
-public class TeamController {
+public class BaseballScheduler {
 
     private final TeamService teamService;
     private final CrawlingService crawlingService;
     private final TeamRepository teamRepository;
 
-    @GetMapping("/update/rank")
+    @PostMapping("/update/rank")
     public void updateTeamRank() {
         teamService.updateTeamRank();
     }
 
-    @GetMapping("/crawling")
+    @PostMapping("/crawling")
     public void runCrawling() {
         String[] teamCodes = {"LG", "HH", "SK", "SS", "KT", "LT", "NC", "HT", "OB", "WO"};
         List<Team> teams = crawlingService.crawlTeams(teamCodes);
@@ -32,9 +34,10 @@ public class TeamController {
         teamRepository.saveAll(teams);
     }
 
-    @GetMapping("calculate/entity-weight")
+    @PostMapping("calculate/entity-weight")
     public void calculateEntityWeight() {
         teamService.calculateEntityWeight();
     }
+
 
 }

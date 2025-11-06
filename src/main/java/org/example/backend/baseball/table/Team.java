@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.example.backend.baseball.crawling.dto.CrawledPlayer;
-import org.example.backend.baseball.team.Region;
+import org.example.backend.baseball.team.BallPark;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +31,7 @@ public class Team {
     private Double averageAge;
 
     @Enumerated(EnumType.STRING)
-    private Region homeTown;
+    private BallPark homeTown;
 
     private Double fanScale;
 
@@ -39,7 +39,7 @@ public class Team {
     private List<CrawledPlayer> crawledPlayers = new ArrayList<>();
 
     @OneToOne(mappedBy = "team", cascade = CascadeType.ALL)
-    private KboTeamWeight weight;
+    private KboWeight weight;
 
     public Team(String teamCode, String teamName) {
         this.teamCode = teamCode;
