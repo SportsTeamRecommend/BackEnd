@@ -1,16 +1,15 @@
-package org.example.backend.baseball.weight;
+package org.example.backend.baseball.table;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.example.backend.baseball.team.Team;
 
 @Entity
 @Getter @Setter @NoArgsConstructor
 @AllArgsConstructor
-public class KboTeamWeight {
+public class KboWeight {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -23,7 +22,7 @@ public class KboTeamWeight {
     private double legacy;        // 근본
     private double franchiseStar; // 프랜차이즈 스타
     private double growth;        // 성장 가능성
-    private double region;        // 연고지
+    private double homeGround;        // 연고지
     private double fandom;        // 팬덤 규모
 
 }

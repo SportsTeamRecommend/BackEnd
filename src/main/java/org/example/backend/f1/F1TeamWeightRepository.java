@@ -1,4 +1,4 @@
-package org.example.backend.common.weight.repository;
+package org.example.backend.f1;
 
 import org.example.backend.common.weight.entity.F1TeamWeight;
 import org.springframework.data.jpa.repository.JpaRepository;

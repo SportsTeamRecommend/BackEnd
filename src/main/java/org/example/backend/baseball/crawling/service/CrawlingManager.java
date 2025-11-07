@@ -2,7 +2,7 @@ package org.example.backend.baseball.crawling.service;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.example.backend.baseball.crawling.crawler.Crawler;
-import org.example.backend.baseball.team.Team;
+import org.example.backend.baseball.table.Team;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
