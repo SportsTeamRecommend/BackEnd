@@ -8,13 +8,21 @@ import org.openqa.selenium.chrome.ChromeDriver;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.openqa.selenium.chrome.ChromeOptions;
+
 class CrawlingManager {
     private final WebDriver driver;
     private final List<Crawler> crawlers = new ArrayList<>();
 
     public CrawlingManager() {
         WebDriverManager.chromedriver().setup();
-        this.driver = new ChromeDriver();
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--headless");
+        options.addArguments("--no-sandbox");
+        options.addArguments("--disable-dev-shm-usage");
+        options.addArguments("--disable-gpu");
+
+        this.driver = new ChromeDriver(options);
     }
 
     public void addCrawler(Crawler crawler) {

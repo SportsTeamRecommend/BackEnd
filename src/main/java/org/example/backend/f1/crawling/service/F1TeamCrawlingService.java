@@ -1,4 +1,4 @@
-package org.example.backend.f1.crawling;
+package org.example.backend.f1.crawling.service;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import java.time.Duration;
@@ -6,9 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import org.example.backend.f1.crawling.dto.F1TeamBasicInfo;
 import org.example.backend.f1.team.F1TeamRepository;
-import org.example.backend.f1.team.dto.F1TeamCrawlingDto;
-import org.example.backend.f1.team.entity.F1Team;
+import org.example.backend.f1.crawling.dto.F1TeamCrawlingDto;
+import org.example.backend.f1.team.F1Team;
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;

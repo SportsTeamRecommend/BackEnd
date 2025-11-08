@@ -1,6 +1,6 @@
-package org.example.backend.f1.driver.dto;
+package org.example.backend.f1.crawling.dto;
 
-import org.example.backend.f1.team.entity.F1Team;
+import org.example.backend.f1.team.F1Team;
 
 public record DriverCrawlingDto(
         String name,

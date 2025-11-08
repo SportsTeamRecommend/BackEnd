@@ -1,4 +1,4 @@
-package org.example.backend.f1.driver.dto;
+package org.example.backend.f1.driver;
 
 public record DriverResponse(
         String name,

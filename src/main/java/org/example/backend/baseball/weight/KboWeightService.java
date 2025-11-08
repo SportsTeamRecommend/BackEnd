@@ -1,14 +1,6 @@
 package org.example.backend.baseball.weight;
 
-import java.util.Random;
-import org.example.backend.common.weight.dto.UserF1RecommendRequest;
-import org.example.backend.f1.weight.F1TeamWeight;
-import org.example.backend.f1.weight.UserF1Weight;
 import org.example.backend.common.weight.entity.WeightType;
-import org.example.backend.f1.statistics.F1StatisticsService;
-import org.example.backend.f1.team.F1TeamRepository;
-import org.example.backend.f1.team.entity.F1Team;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -19,14 +11,7 @@ import java.util.Map;
 @Service
 public class KboWeightService {
 
-    F1TeamRepository f1TeamRepository;
-    F1StatisticsService f1StatisticsService;
 
-    @Autowired
-    public void WeightService(F1TeamRepository f1TeamRepository, F1StatisticsService f1StatisticsService) {
-        this.f1TeamRepository = f1TeamRepository;
-        this.f1StatisticsService = f1StatisticsService;
-    }
 
     public List<Map.Entry<String, Double>> kboRankTeams(List<KboTeamWeight> kboTeamWeights, UserKboWeight userKboWeight) {
         Map<String, Double> scoreMap = new HashMap<>();
@@ -43,26 +28,7 @@ public class KboWeightService {
         return rankedList;
     }
 
-    public List<Map.Entry<String, Double>> f1RankTeams(List<F1TeamWeight> f1TeamWeights, UserF1RecommendRequest userF1RecommendRequest) {
-        Map<String, Double> scoreMap = new HashMap<>();
-        UserF1Weight userF1Weight = new UserF1Weight(userF1RecommendRequest);
-        List<F1Team> f1Teams = f1TeamRepository.findAll();
 
-        for (F1Team f1Team : f1Teams) {
-            Random random = new Random();
-            double score = random.nextDouble();
-            scoreMap.put(f1Team.getName(), score);
-        }
-
-        List<Map.Entry<String, Double>> rankedList = new ArrayList<>(scoreMap.entrySet());
-        rankedList.sort((a, b) -> Double.compare(b.getValue(), a.getValue()));
-
-        String name = rankedList.get(0).getKey();
-        F1Team recommended = f1TeamRepository.findByName(name);
-        f1StatisticsService.addRecommended(recommended);
-
-        return rankedList;
-    }
 
     private double calculateTeamScore(KboTeamWeight team, UserKboWeight user) {
         double totalScore = 0;

@@ -6,8 +6,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
 import lombok.Getter;
-import org.example.backend.baseball.team.Team;
-import org.example.backend.f1.team.entity.F1Team;
+import org.example.backend.f1.team.F1Team;
 
 @Entity
 @Getter

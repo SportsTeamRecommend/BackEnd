@@ -24,6 +24,7 @@ public class AverageAgeCrawler implements Crawler {
         try {
             driver.get("https://www.koreabaseball.com/Player/Register.aspx");
 
+
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
             By headerSel = By.cssSelector("h4.bul_history");
             By tabSel = By.cssSelector("li[data-id='" + teamCode + "'] a");

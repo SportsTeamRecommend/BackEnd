@@ -1,4 +1,4 @@
-package org.example.backend.f1.driver.entity;
+package org.example.backend.f1.driver;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -8,8 +8,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.example.backend.f1.driver.dto.DriverCrawlingDto;
-import org.example.backend.f1.team.entity.F1Team;
+import org.example.backend.f1.crawling.dto.DriverCrawlingDto;
+import org.example.backend.f1.team.F1Team;
 import org.example.backend.f1.crawling.Parser;
 
 @Entity

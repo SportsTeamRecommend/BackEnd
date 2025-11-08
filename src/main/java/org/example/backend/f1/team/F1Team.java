@@ -1,4 +1,4 @@
-package org.example.backend.f1.team.entity;
+package org.example.backend.f1.team;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.example.backend.f1.driver.entity.Driver;
-import org.example.backend.f1.team.dto.F1TeamCrawlingDto;
+import org.example.backend.f1.driver.Driver;
+import org.example.backend.f1.crawling.dto.F1TeamCrawlingDto;
 import org.example.backend.f1.crawling.Parser;
 
 @Entity
@@ -22,6 +22,7 @@ public class F1Team {
     private Integer id;
     private String name;
     private String imageUrl;
+    private String videoUrl = null;
     private Integer seasonPosition;
     private Integer seasonPoint;
     private Integer seasonWins;

@@ -1,11 +1,12 @@
-package org.example.backend.f1.team.dto;
+package org.example.backend.f1.team;
 
 import java.util.List;
-import org.example.backend.f1.driver.dto.DriverResponse;
+import org.example.backend.f1.driver.DriverResponse;
 
 public record F1TeamResponse(
         String name,
         String logoUrl,
+        String videoUrl,
         Integer seasonPosition,
         Integer seasonPoint,
         Integer seasonWins,

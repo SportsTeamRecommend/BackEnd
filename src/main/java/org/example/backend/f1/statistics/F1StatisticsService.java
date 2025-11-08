@@ -3,7 +3,7 @@ package org.example.backend.f1.statistics;
 import java.util.List;
 import lombok.Getter;
 import org.example.backend.f1.team.F1TeamRepository;
-import org.example.backend.f1.team.entity.F1Team;
+import org.example.backend.f1.team.F1Team;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
