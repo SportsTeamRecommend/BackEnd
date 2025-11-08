@@ -1,7 +1,7 @@
 package org.example.backend.baseball.crawling.crawler;
 
 import org.example.backend.baseball.crawling.dto.CrawledPlayer;
-import org.example.backend.baseball.team.Team;
+import org.example.backend.baseball.table.Team;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;

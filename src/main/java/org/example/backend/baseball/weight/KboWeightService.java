@@ -1,23 +1,43 @@
 package org.example.backend.baseball.weight;
 
+import lombok.RequiredArgsConstructor;
+import org.example.backend.baseball.table.KboWeight;
+import org.example.backend.baseball.table.RegionDistance;
+import org.example.backend.baseball.table.Team;
+import org.example.backend.baseball.team.EntityCalculator;
+import org.example.backend.baseball.team.Region;
+import org.example.backend.baseball.team.RegionDistanceRepository;
+import org.example.backend.common.weight.dto.UserF1RecommendRequest;
+import org.example.backend.common.weight.entity.F1TeamWeight;
+import org.example.backend.common.weight.entity.UserF1Weight;
 import org.example.backend.common.weight.entity.WeightType;
+import org.example.backend.f1.statistics.F1StatisticService;
+import org.example.backend.f1.team.F1TeamRepository;
+import org.example.backend.f1.team.entity.F1Team;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
+@RequiredArgsConstructor
 public class KboWeightService {
 
+    private final RegionDistanceRepository regionDistanceRepository;
+    private final EntityCalculator calculator;
 
+    // TODO : F1은 별도 클래스로 리팩토링
+    private final F1TeamRepository f1TeamRepository;
+    private final F1StatisticService f1StatisticService;
 
-    public List<Map.Entry<String, Double>> kboRankTeams(List<KboTeamWeight> kboTeamWeights, UserKboWeight userKboWeight) {
+    // TODO: 동점자 처리
+
+    public List<Map.Entry<String, Double>> getKboWeightRanks(List<KboWeight> kboWeights, UserKboWeight userKboWeight, Region userRegion) {
         Map<String, Double> scoreMap = new HashMap<>();
 
-        for (KboTeamWeight teamWeight : kboTeamWeights) {
-            double score = calculateTeamScore(teamWeight, userKboWeight);
+        double maxDistance = regionDistanceRepository.findMaxDistanceKm();
+
+        for (KboWeight teamWeight : kboWeights) {
+            double score = calculateTeamScore(teamWeight, userKboWeight, userRegion, maxDistance);
             scoreMap.put(teamWeight.getTeam().getTeamName(), score);
         }
 
@@ -30,7 +50,12 @@ public class KboWeightService {
 
 
 
-    private double calculateTeamScore(KboTeamWeight team, UserKboWeight user) {
+    private double calculateTeamScore(
+            KboWeight team,
+            UserKboWeight user,
+            Region userRegion,
+            double maxDistance
+    ) {
         double totalScore = 0;
         double totalWeight = 0;
 
@@ -39,14 +64,20 @@ public class KboWeightService {
 
         totalScore += calculateAttributeScore(team.getLegacy(), user.getLegacyPreference(), user.getLegacyImportance());
         totalWeight += getEffectiveWeight(user.getLegacyPreference(), user.getLegacyImportance());
+
         totalScore += calculateAttributeScore(team.getFranchiseStar(), user.getFranchiseStarPreference(), user.getFranchiseStarImportance());
         totalWeight += getEffectiveWeight(user.getFranchiseStarPreference(), user.getFranchiseStarImportance());
 
         totalScore += calculateAttributeScore(team.getGrowth(), user.getGrowthPreference(), user.getGrowthImportance());
         totalWeight += getEffectiveWeight(user.getGrowthPreference(), user.getGrowthImportance());
 
-        totalScore += calculateAttributeScore(team.getRegion(), user.getRegionPreference(), user.getRegionImportance());
-        totalWeight += getEffectiveWeight(user.getRegionPreference(), user.getRegionImportance());
+        if (user.getRegionPreference() != WeightType.NONE) {
+            double regionWeight = (userRegion == null)
+                    ? 5.0
+                    : calculateTeamRegionWeight(team.getTeam(), userRegion, maxDistance);
+            totalScore += (regionWeight / 10.0) * user.getRegionImportance();
+            totalWeight += user.getRegionImportance();
+        }
 
         totalScore += calculateAttributeScore(team.getFandom(), user.getFandomPreference(), user.getFandomImportance());
         totalWeight += getEffectiveWeight(user.getFandomPreference(), user.getFandomImportance());
@@ -72,4 +103,15 @@ public class KboWeightService {
     private double getEffectiveWeight(WeightType preference, double importance) {
         return preference == WeightType.NONE ? 0 : importance;
     }
+
+    public double calculateTeamRegionWeight(Team team, Region userRegion, double maxDistance) {
+        RegionDistance distance = regionDistanceRepository
+                .findByRegionAndTeam(userRegion, team)
+                .orElseThrow(() -> new IllegalStateException(
+                        "거리 데이터 없음: " + userRegion + " - " + team.getTeamName()
+                ));
+
+        return calculator.calculateRegionWeight(distance.getDistanceKm(), maxDistance);
+    }
+
 }
