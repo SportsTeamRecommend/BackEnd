@@ -7,13 +7,7 @@ import org.example.backend.baseball.table.Team;
 import org.example.backend.baseball.team.EntityCalculator;
 import org.example.backend.baseball.team.Region;
 import org.example.backend.baseball.team.RegionDistanceRepository;
-import org.example.backend.common.weight.dto.UserF1RecommendRequest;
-import org.example.backend.common.weight.entity.F1TeamWeight;
-import org.example.backend.common.weight.entity.UserF1Weight;
 import org.example.backend.common.weight.entity.WeightType;
-import org.example.backend.f1.statistics.F1StatisticService;
-import org.example.backend.f1.team.F1TeamRepository;
-import org.example.backend.f1.team.entity.F1Team;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -24,10 +18,6 @@ public class KboWeightService {
 
     private final RegionDistanceRepository regionDistanceRepository;
     private final EntityCalculator calculator;
-
-    // TODO : F1은 별도 클래스로 리팩토링
-    private final F1TeamRepository f1TeamRepository;
-    private final F1StatisticService f1StatisticService;
 
     // TODO: 동점자 처리
 
