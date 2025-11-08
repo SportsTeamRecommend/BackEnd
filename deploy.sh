@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-PROJECT_DIR="/home/ubuntu/BackEnd"
+PROJECT_DIR="/home/ubuntu"
 JAR_NAME="$PROJECT_DIR/backend.jar"
 LOG_DIR="$PROJECT_DIR/logs"
 PROFILE="prod"
