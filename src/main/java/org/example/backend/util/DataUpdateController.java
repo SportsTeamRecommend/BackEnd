@@ -3,7 +3,7 @@ package org.example.backend.util;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.example.backend.baseball.crawling.service.CrawlingService;
-import org.example.backend.baseball.team.Team;
+import org.example.backend.baseball.table.Team;
 import org.example.backend.baseball.team.TeamRepository;
 import org.example.backend.baseball.team.TeamService;
 import org.example.backend.f1.crawling.service.DriverCrawlingService;
