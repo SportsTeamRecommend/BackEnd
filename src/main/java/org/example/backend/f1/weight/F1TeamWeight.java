@@ -1,4 +1,4 @@
-package org.example.backend.common.weight.entity;
+package org.example.backend.f1.weight;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

@@ -1,12 +1,9 @@
 package org.example.backend.f1.team;
 
-import java.util.ArrayList;
 import java.util.List;
 import org.example.backend.f1.driver.DriverRepository;
-import org.example.backend.f1.driver.dto.DriverResponse;
-import org.example.backend.f1.driver.entity.Driver;
-import org.example.backend.f1.team.dto.F1TeamResponse;
-import org.example.backend.f1.team.entity.F1Team;
+import org.example.backend.f1.driver.DriverResponse;
+import org.example.backend.f1.driver.Driver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -43,6 +40,7 @@ public class F1TeamService {
         return new F1TeamResponse(
                 f1Team.getName(),
                 f1Team.getImageUrl(),
+                f1Team.getVideoUrl(),
                 f1Team.getSeasonPosition(),
                 f1Team.getSeasonPoint(),
                 f1Team.getSeasonWins(),

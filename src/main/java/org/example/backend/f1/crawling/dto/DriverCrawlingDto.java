@@ -1,11 +1,12 @@
-package org.example.backend.f1.team.dto;
+package org.example.backend.f1.crawling.dto;
 
-import java.util.List;
-import org.example.backend.f1.driver.dto.DriverResponse;
+import org.example.backend.f1.team.F1Team;
 
-public record F1TeamResponse(
+public record DriverCrawlingDto(
         String name,
-        String logoUrl,
+        F1Team team,
+        String dateOfBirth,
+        String imageUrl,
         String seasonPosition,
         String seasonPoint,
         String seasonWins,
@@ -13,5 +14,6 @@ public record F1TeamResponse(
         String careerWins,
         String careerPodiums,
         String worldChampionship,
-        List<DriverResponse> drivers
-) { }
+        Double avgPoints
+)
+{ }

@@ -1,4 +1,4 @@
-package org.example.backend.f1.crawling;
+package org.example.backend.f1.crawling.dto;
 
 public class DriverBasicInfo {
     private final String name;

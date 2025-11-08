@@ -1,12 +1,8 @@
-package org.example.backend.f1.driver.dto;
+package org.example.backend.f1.crawling.dto;
 
-import org.example.backend.f1.team.entity.F1Team;
-
-public record DriverCrawlingDto(
+public record F1TeamCrawlingDto(
         String name,
-        F1Team team,
-        String dateOfBirth,
-        String imageUrl,
+        String logoUrl,
         String seasonPosition,
         String seasonPoint,
         String seasonWins,
@@ -14,6 +10,6 @@ public record DriverCrawlingDto(
         String careerWins,
         String careerPodiums,
         String worldChampionship,
-        Double avgPoints
+        Double avgRank
 )
 { }
