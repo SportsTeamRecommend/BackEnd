@@ -33,7 +33,7 @@ echo ">> Deploy new application"
 mkdir -p "$LOG_DIR"
 LOG_PATH="$LOG_DIR/server_log_$(date +%Y-%m-%d).txt"
 
-nohup java -jar -Dspring.profiles.active=$PROFILE "$JAR_NAME" >> "$LOG_PATH" 2>&1 &
+nohup java -jar -Duser.timezone="Asia/Seoul" -Dspring.profiles.active=$PROFILE "$JAR_NAME" >> "$LOG_PATH" 2>&1 &
 
 # --- Health Check 로직 시작 ---
 echo ">> Waiting for application to start... (Max $MAX_ATTEMPTS attempts)"
