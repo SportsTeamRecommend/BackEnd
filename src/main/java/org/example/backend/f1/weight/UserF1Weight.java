@@ -1,6 +1,7 @@
-package org.example.backend.common.weight.entity;
+package org.example.backend.f1.weight;
 
 import org.example.backend.common.weight.dto.UserF1RecommendRequest;
+import org.example.backend.common.weight.entity.WeightType;
 
 public class UserF1Weight {
 

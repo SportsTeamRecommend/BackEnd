@@ -2,10 +2,10 @@ package org.example.backend.baseball.weight;
 
 import java.util.Random;
 import org.example.backend.common.weight.dto.UserF1RecommendRequest;
-import org.example.backend.common.weight.entity.F1TeamWeight;
-import org.example.backend.common.weight.entity.UserF1Weight;
+import org.example.backend.f1.weight.F1TeamWeight;
+import org.example.backend.f1.weight.UserF1Weight;
 import org.example.backend.common.weight.entity.WeightType;
-import org.example.backend.f1.statistics.F1StatisticService;
+import org.example.backend.f1.statistics.F1StatisticsService;
 import org.example.backend.f1.team.F1TeamRepository;
 import org.example.backend.f1.team.entity.F1Team;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,12 +20,12 @@ import java.util.Map;
 public class KboWeightService {
 
     F1TeamRepository f1TeamRepository;
-    F1StatisticService f1StatisticService;
+    F1StatisticsService f1StatisticsService;
 
     @Autowired
-    public void WeightService(F1TeamRepository f1TeamRepository, F1StatisticService f1StatisticService) {
+    public void WeightService(F1TeamRepository f1TeamRepository, F1StatisticsService f1StatisticsService) {
         this.f1TeamRepository = f1TeamRepository;
-        this.f1StatisticService = f1StatisticService;
+        this.f1StatisticsService = f1StatisticsService;
     }
 
     public List<Map.Entry<String, Double>> kboRankTeams(List<KboTeamWeight> kboTeamWeights, UserKboWeight userKboWeight) {
@@ -59,7 +59,7 @@ public class KboWeightService {
 
         String name = rankedList.get(0).getKey();
         F1Team recommended = f1TeamRepository.findByName(name);
-        f1StatisticService.addRecommended(recommended);
+        f1StatisticsService.addRecommended(recommended);
 
         return rankedList;
     }

@@ -4,11 +4,13 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import org.example.backend.f1.team.F1TeamRepository;
 import org.example.backend.f1.team.dto.F1TeamCrawlingDto;
 import org.example.backend.f1.team.entity.F1Team;
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -17,18 +19,20 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class F1TeamCrawlingService {
 
-    F1TeamRepository teamRepository;
+    private final F1TeamRepository f1TeamRepository;
 
     @Autowired
-    public F1TeamCrawlingService(F1TeamRepository teamRepository) {
-        this.teamRepository = teamRepository;
+    public F1TeamCrawlingService(F1TeamRepository f1TeamRepository) {
+        this.f1TeamRepository = f1TeamRepository;
     }
 
-    void crawlingTeamData() {
+    @Transactional
+    public void crawlingTeamData() {
         WebDriver driver = null;
         try {
             WebDriverManager.chromedriver().setup();
@@ -83,26 +87,56 @@ public class F1TeamCrawlingService {
                 else careerWins = "0";
 
                 int sumRank = Integer.parseInt(seasonRank.replaceAll("[^0-9]", ""));
-                double count = 1;
+                double count = 1.0;
+
+                String fullName = basicInfo.getName();
+
+
+                String defaultName = "";
+
+                if (fullName.contains("Red Bull")) defaultName = "Red Bull";
+                else if (fullName.contains("Mercedes")) defaultName = "Mercedes";
+                else if (fullName.contains("Ferrari")) defaultName = "Ferrari";
+                else if (fullName.contains("McLaren")) defaultName = "McLaren";
+                else if (fullName.contains("Aston Martin")) defaultName = "Aston Martin";
+                else if (fullName.contains("Alpine")) defaultName = "Alpine";
+                else if (fullName.contains("Williams")) defaultName = "Williams";
+                else if (fullName.contains("RB")) defaultName = "RB";
+                else if (fullName.contains("Sauber")) defaultName = "Sauber";
+                else if (fullName.contains("Haas")) defaultName = "Haas";
+                else defaultName = fullName;
 
                 driver.get("https://www.formula1.com/en/results/2024/team");
+
+                String xpath2024 = "//div[@id='results-table']//table/tbody/tr[contains(normalize-space(td[2]), '" + defaultName
+                        + "')]/td[1]";
+
                 try {
-                    sumRank += Integer.parseInt(driver.findElement(By.xpath("//table[contains(@class, 'f1-table')]/tbody/tr[contains(td[2], '" + basicInfo.getName() +"')]/td[1]")).getText());
+                    WebElement rankElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(xpath2024)));
+                    sumRank += Integer.parseInt(rankElement.getText());
                     count += 1.0;
 
-                } catch (NoSuchElementException e) {
-                    System.out.println("목록에 해당 선수가 없어 건너뜁니다.");
+                } catch (TimeoutException e) {
+                    System.out.println("2024년 기록에 " + defaultName + " (원본: "+ fullName +") 팀이 없거나 로드에 실패했습니다.");
+                } catch (NumberFormatException e) {
+                    System.out.println("2024년 " + defaultName + " 팀의 랭킹을 숫자로 변환할 수 없습니다.");
                 }
 
                 driver.get("https://www.formula1.com/en/results/2023/team");
+
+                String xpath2023 = "//div[@id='results-table']//table/tbody/tr[contains(normalize-space(td[2]), '" + defaultName
+                        + "')]/td[1]";
+
                 try {
-                    sumRank += Integer.parseInt(driver.findElement(By.xpath("//table[contains(@class, 'f1-table')]/tbody/tr[contains(td[2], '" + basicInfo.getName() +"')]/td[1]")).getText());
+                    WebElement rankElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(xpath2023)));
+                    sumRank += Integer.parseInt(rankElement.getText());
                     count += 1.0;
 
-                } catch (NoSuchElementException e) {
-                    System.out.println("목록에 해당 팀이 없어 건너뜁니다.");
+                } catch (TimeoutException e) {
+                    System.out.println("2023년 기록에 " + defaultName + " (원본: "+ fullName +") 팀이 없거나 로드에 실패했습니다.");
+                } catch (NumberFormatException e) {
+                    System.out.println("2023년 " + defaultName + " 팀의 랭킹을 숫자로 변환할 수 없습니다.");
                 }
-
                 double avgRank = sumRank / count;
 
                 allTeamDetails.add(new F1TeamCrawlingDto(
@@ -119,18 +153,43 @@ public class F1TeamCrawlingService {
                 ));
             }
 
-            System.out.println("\n\n=== 최종 수집된 팀 DTO 목록 (" + allTeamDetails.size() + "팀) ===");
+            System.out.println("\n\n=== 최종 수집된 팀 목록 (" + allTeamDetails.size() + "팀) ===");
             allTeamDetails.forEach(System.out::println);
 
-            for(F1TeamCrawlingDto teamCrawlingDto : allTeamDetails) {
-                teamRepository.save(new F1Team(teamCrawlingDto));
-            }
-
+            updateF1TeamData(allTeamDetails);
         } finally {
             if (driver != null) {
                 driver.quit();
             }
         }
+    }
+
+    private void updateF1TeamData(List<F1TeamCrawlingDto> allTeamDetails) {
+        List<String> teamNames = allTeamDetails.stream()
+                .map((detail) -> detail.name())
+                .toList();
+
+        List<F1Team> teams = f1TeamRepository.findAllByNameIn(teamNames);
+
+        Map<String, F1Team> existingTeamMap = teams.stream()
+                .collect(Collectors.toMap(F1Team::getName, existTeam -> existTeam));
+
+        List<F1Team> teamToSave = new ArrayList<>();
+
+        for (F1TeamCrawlingDto allTeamDetail : allTeamDetails) {
+            String teamName = allTeamDetail.name();
+
+            F1Team existTeam = existingTeamMap.get(teamName);
+
+            if (existTeam != null) {
+                existTeam.updateInfo(allTeamDetail);
+                teamToSave.add(existTeam);
+            } else {
+                F1Team newDriver = new F1Team(allTeamDetail);
+                teamToSave.add(newDriver);
+            }
+        }
+        f1TeamRepository.saveAll(teamToSave);
     }
 
 }

@@ -4,12 +4,12 @@ public record DriverResponse(
         String name,
         String dateOfBirth,
         String imageUrl,
-        String seasonPosition,
-        String seasonPoint,
-        String seasonWins,
-        String seasonPodiums,
-        String careerWins,
-        String careerPodiums,
-        String driverChampionship
+        Integer seasonPosition,
+        Integer seasonPoint,
+        Integer seasonWins,
+        Integer seasonPodiums,
+        Integer careerWins,
+        Integer careerPodiums,
+        Integer driverChampionship
 )
 { }

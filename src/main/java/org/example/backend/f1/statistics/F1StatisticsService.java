@@ -10,15 +10,28 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Getter
 @Service
-public class F1StatisticService {
+public class F1StatisticsService {
 
     private final F1StatisticsRepository f1StatisticsRepository;
     private final F1TeamRepository f1TeamRepository;
 
     @Autowired
-    public F1StatisticService(F1StatisticsRepository f1StatisticsRepository, F1TeamRepository f1TeamRepository) {
+    public F1StatisticsService(F1StatisticsRepository f1StatisticsRepository, F1TeamRepository f1TeamRepository) {
         this.f1StatisticsRepository = f1StatisticsRepository;
         this.f1TeamRepository = f1TeamRepository;
+    }
+
+    @Transactional
+    public void InitStatistics(String... args) throws Exception {
+        List<F1Team> allTeams = f1TeamRepository.findAll();
+
+        for (F1Team team : allTeams) {
+            if (!f1StatisticsRepository.existsById(team.getId())) {
+                F1Statistics newStat = new F1Statistics(team, 0.0, 0L, 0L);
+                f1StatisticsRepository.save(newStat);
+                System.out.println(team.getName() + " 팀의 통계 데이터를 새로 생성했습니다.");
+            }
+        }
     }
 
     @Transactional

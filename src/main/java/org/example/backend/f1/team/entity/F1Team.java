@@ -11,6 +11,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.example.backend.f1.driver.entity.Driver;
 import org.example.backend.f1.team.dto.F1TeamCrawlingDto;
+import org.example.backend.f1.crawling.Parser;
 
 @Entity
 @Getter
@@ -18,16 +19,16 @@ import org.example.backend.f1.team.dto.F1TeamCrawlingDto;
 public class F1Team {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private Integer id;
     private String name;
     private String imageUrl;
-    private String seasonPosition;
-    private String seasonPoint;
-    private String seasonWins;
-    private String seasonPodiums;
-    private String totalWins;
-    private String totalPodiums;
-    private String constructorChampionship;
+    private Integer seasonPosition;
+    private Integer seasonPoint;
+    private Integer seasonWins;
+    private Integer seasonPodiums;
+    private Integer totalWins;
+    private Integer totalPodiums;
+    private Integer constructorChampionship;
     private Double avgRank;
 
     @OneToMany(mappedBy = "team")
@@ -36,13 +37,26 @@ public class F1Team {
     public F1Team(F1TeamCrawlingDto teamCrawlingDto) {
         name = teamCrawlingDto.name();
         imageUrl = teamCrawlingDto.logoUrl();
-        seasonPosition = teamCrawlingDto.seasonPosition();
-        seasonPoint = teamCrawlingDto.seasonPoint();
-        seasonWins = teamCrawlingDto.seasonWins();
-        seasonPodiums = teamCrawlingDto.seasonPodiums();
-        totalWins = teamCrawlingDto.careerWins();
-        totalPodiums = teamCrawlingDto.careerPodiums();
-        constructorChampionship = teamCrawlingDto.worldChampionship();
+        seasonPosition = Parser.parseAsInteger(teamCrawlingDto.seasonPosition());
+        seasonPoint = Parser.parseAsInteger(teamCrawlingDto.seasonPoint());
+        seasonWins = Parser.parseAsInteger(teamCrawlingDto.seasonWins());
+        seasonPodiums = Parser.parseAsInteger(teamCrawlingDto.seasonPodiums());
+        totalWins = Parser.parseAsInteger(teamCrawlingDto.careerWins());
+        totalPodiums = Parser.parseAsInteger(teamCrawlingDto.careerPodiums());
+        constructorChampionship = Parser.parseAsInteger(teamCrawlingDto.worldChampionship());
+        this.avgRank = teamCrawlingDto.avgRank();
+    }
+
+    public void updateInfo(F1TeamCrawlingDto teamCrawlingDto) {
+        name = teamCrawlingDto.name();
+        imageUrl = teamCrawlingDto.logoUrl();
+        seasonPosition = Parser.parseAsInteger(teamCrawlingDto.seasonPosition());
+        seasonPoint = Parser.parseAsInteger(teamCrawlingDto.seasonPoint());
+        seasonWins = Parser.parseAsInteger(teamCrawlingDto.seasonWins());
+        seasonPodiums = Parser.parseAsInteger(teamCrawlingDto.seasonPodiums());
+        totalWins = Parser.parseAsInteger(teamCrawlingDto.careerWins());
+        totalPodiums = Parser.parseAsInteger(teamCrawlingDto.careerPodiums());
+        constructorChampionship = Parser.parseAsInteger(teamCrawlingDto.worldChampionship());
         this.avgRank = teamCrawlingDto.avgRank();
     }
 }

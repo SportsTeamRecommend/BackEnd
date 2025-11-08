@@ -1,0 +1,41 @@
+package org.example.backend.util;
+
+import java.util.List;
+import lombok.RequiredArgsConstructor;
+import org.example.backend.baseball.crawling.service.CrawlingService;
+import org.example.backend.baseball.team.Team;
+import org.example.backend.baseball.team.TeamRepository;
+import org.example.backend.baseball.team.TeamService;
+import org.example.backend.f1.crawling.DriverCrawlingService;
+import org.example.backend.f1.crawling.F1TeamCrawlingService;
+import org.example.backend.f1.statistics.F1StatisticsService;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/api")
+@RequiredArgsConstructor
+public class DataUpdateController {
+    private final F1TeamCrawlingService f1TeamCrawlingService;
+    private final DriverCrawlingService driverCrawlingService;
+    private final CrawlingService crawlingService;
+    private final TeamService teamService;
+    private final TeamRepository teamRepository;
+    private final F1StatisticsService f1StatisticsService;
+
+    @PostMapping("/f1/update")
+    public void updateF1Data() throws Exception {
+        f1TeamCrawlingService.crawlingTeamData();
+        driverCrawlingService.crawlingDriverData();
+        f1StatisticsService.InitStatistics();
+    }
+
+    @PostMapping("/baseball/update")
+    public void updateBaseballData() {
+        String[] teamCodes = {"LG", "HH", "SK", "SS", "KT", "LT", "NC", "HT", "OB", "WO"};
+        List<Team> teams = crawlingService.crawlTeams(teamCodes);
+        teamRepository.saveAll(teams);
+        teamService.updateTeamRank();
+    }
+}
