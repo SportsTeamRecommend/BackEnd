@@ -3,7 +3,7 @@ package org.example.backend.baseball.crawling.service;
 import lombok.RequiredArgsConstructor;
 import org.example.backend.baseball.team.TeamRepository;
 import org.example.backend.baseball.team.TeamService;
-import org.example.backend.baseball.team.Team;
+import org.example.backend.baseball.table.Team;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 

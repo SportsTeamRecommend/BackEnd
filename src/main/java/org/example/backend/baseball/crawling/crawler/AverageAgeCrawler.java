@@ -1,7 +1,7 @@
 package org.example.backend.baseball.crawling.crawler;
 
 import org.example.backend.baseball.crawling.dto.CrawledPlayer;
-import org.example.backend.baseball.team.Team;
+import org.example.backend.baseball.table.Team;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -23,6 +23,7 @@ public class AverageAgeCrawler implements Crawler {
     public Team crawlTeamData(WebDriver driver, String teamCode) {
         try {
             driver.get("https://www.koreabaseball.com/Player/Register.aspx");
+
 
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
             By headerSel = By.cssSelector("h4.bul_history");

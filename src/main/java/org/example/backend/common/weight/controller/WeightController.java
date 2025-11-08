@@ -1,10 +1,15 @@
 package org.example.backend.common.weight.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.example.backend.common.weight.entity.KboTeamWeight;
-import org.example.backend.common.weight.entity.UserKboWeight;
-import org.example.backend.common.weight.repository.KboTeamWeightRepository;
-import org.example.backend.common.weight.service.WeightService;
+import org.example.backend.baseball.table.KboWeight;
+import org.example.backend.baseball.team.Region;
+import org.example.backend.baseball.weight.KboWeightRepository;
+import org.example.backend.common.weight.dto.UserF1RecommendRequest;
+import org.example.backend.f1.weight.F1TeamWeight;
+import org.example.backend.baseball.weight.UserKboWeight;
+import org.example.backend.baseball.weight.KboWeightService;
+import org.example.backend.f1.weight.F1TeamWeightRepository;
+import org.example.backend.f1.weight.F1WeightService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,16 +21,26 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class WeightController {
 
-    private final WeightService weightService;
-    private final KboTeamWeightRepository kboTeamWeightRepository;
+    private final KboWeightService kboWeightService;
+    private final F1WeightService f1WeightService;
+    private final F1TeamWeightRepository f1TeamWeightRepository;
+    private final KboWeightRepository kboWeightRepository;
 
-    @PostMapping("/recommend")
-    public ResponseEntity<List<Map.Entry<String, Double>>> recommendTeams(@RequestBody UserKboWeight userKboWeight) {
-
-
-        List<KboTeamWeight> teamWeights = kboTeamWeightRepository.findAll();
-        List<Map.Entry<String, Double>> result = weightService.kboRankTeams(teamWeights, userKboWeight);
+    @PostMapping("/kbo/recommend")
+    public ResponseEntity<List<Map.Entry<String, Double>>> recommendTeams(@RequestBody UserKboWeight userKboWeight, @RequestParam Region userRegion) {
+        List<KboWeight> allTeams = kboWeightRepository.findAll();
+        List<Map.Entry<String, Double>> result =  kboWeightService.getKboWeightRanks(allTeams, userKboWeight, userRegion);
 
         return ResponseEntity.ok(result);
     }
+
+    @PostMapping("/f1/recommend")
+    public ResponseEntity<List<Map.Entry<String, Double>>> recommendF1Teams(@RequestBody UserF1RecommendRequest userF1RecommendRequest) {
+
+        List<F1TeamWeight> teamWeights = f1TeamWeightRepository.findAll();
+        List<Map.Entry<String, Double>> result = f1WeightService.f1RankTeams(teamWeights, userF1RecommendRequest);
+
+        return ResponseEntity.status(200).body(result);
+    }
+
 }
