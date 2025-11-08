@@ -2,7 +2,7 @@
 set -e
 
 PROJECT_DIR="/home/ubuntu"
-JAR_NAME="$PROJECT_DIR/backend.jar"
+JAR_NAME="$PROJECT_DIR/build/libs/backend.jar"
 LOG_DIR="$PROJECT_DIR/logs"
 PROFILE="prod"
 
