@@ -11,6 +11,7 @@ import org.example.backend.common.weight.dto.UserF1RecommendRequest;
 import org.example.backend.f1.statistics.F1StatisticsService;
 import org.example.backend.f1.team.F1TeamRepository;
 import org.example.backend.f1.team.F1Team;
+import org.example.backend.f1.team.F1TeamResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,14 +31,12 @@ public class F1WeightService {
         Map<String, Double> scoreMap = new HashMap<>();
         UserF1Weight userF1Weight = new UserF1Weight(userF1RecommendRequest);
         List<F1Team> f1Teams = f1TeamRepository.findAll();
-
+        List<F1RecommendResponse> rankedList = new ArrayList<>();
         for (F1Team f1Team : f1Teams) {
             Random random = new Random();
             double score = random.nextDouble();
-            scoreMap.put(f1Team.getName(), score);
+            rankedList.add(new F1RecommendResponse(f1Team.getName(), score));
         }
-
-        List<F1RecommendResponse> rankedList = new ArrayList<>();
         rankedList.sort((a, b) -> Double.compare(b.result(), a.result()));
 
         String name = rankedList.get(0).name();
