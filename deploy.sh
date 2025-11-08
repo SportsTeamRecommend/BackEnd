@@ -7,14 +7,8 @@ LOG_DIR="$PROJECT_DIR/logs"
 PROFILE="prod"
 
 HEALTH_CHECK_URL="http://localhost:8080/actuator/health"
-MAX_ATTEMPTS=12
-WAIT_SECONDS=5
-
-cd $PROJECT_DIR
-
-echo "========================================="
-echo "Start Deployment for PROFILE: $PROFILE"
-echo "========================================="
+MAX_ATTEMPTS=12 # 12번 시도
+WAIT_SECONDS=5  # 5초 간격 (총 12 * 5 = 60초 대기)
 
 echo ">> Check running application on port 8080"
 CURRENT_PID=$(lsof -t -i:8080 || true)
@@ -47,24 +41,16 @@ echo ">> Waiting for application to start... (Max $MAX_ATTEMPTS attempts)"
 START_SUCCESS=false
 for i in $(seq 1 $MAX_ATTEMPTS); do
     echo ">> Health check attempt $i/$MAX_ATTEMPTS..."
-    HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" $HEALTH_CHECK_URL)
-
-    if [ "$HTTP_CODE" -eq 200 ]; then
-        HEALTH_STATUS=$(curl -s $HEALTH_CHECK_URL | grep -o '"status":"UP"')
-
-        if [ -n "$HEALTH_STATUS" ]; then
-            echo ">> Application is UP and healthy."
-            START_SUCCESS=true
-            break
-        else
-            echo ">> HTTP 200 OK, but status is not 'UP'. Retrying in $WAIT_SECONDS sec..."
-        fi
+    if curl -s -f $HEALTH_CHECK_URL | grep -q '"status":"UP"'; then
+        echo ">> Application is UP and healthy."
+        START_SUCCESS=true
+        break
     else
-        echo ">> Application not responding (HTTP Code: $HTTP_CODE). Retrying in $WAIT_SECONDS sec..."
+        echo ">> Application not responding or not healthy yet. Retrying in $WAIT_SECONDS sec..."
     fi
-
     sleep $WAIT_SECONDS
 done
+# --- Health Check 로직 종료 ---
 
 if [ "$START_SUCCESS" = false ]; then
     echo ">> ERROR: New application failed to start. Please check the log at $LOG_PATH"

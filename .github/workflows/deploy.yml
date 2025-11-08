@@ -55,7 +55,7 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_PRIVATE_KEY }}
           source: "build/libs/backend.jar"
-          target: "~/"
+          target: "~/backend.jar"
 
       - name: Execute Server
         uses: appleboy/ssh-action@master
