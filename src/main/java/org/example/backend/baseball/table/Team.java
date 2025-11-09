@@ -38,9 +38,6 @@ public class Team {
     @Transient
     private List<CrawledPlayer> crawledPlayers = new ArrayList<>();
 
-    @OneToOne(mappedBy = "team", cascade = CascadeType.ALL)
-    private KboWeight weight;
-
     public Team(String teamCode, String teamName) {
         this.teamCode = teamCode;
         this.teamName = teamName;
