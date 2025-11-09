@@ -8,8 +8,6 @@ public interface TeamRepository extends JpaRepository<Team, String> {
     // 창단연도
     @Query("SELECT MIN(t.foundedYear) FROM Team t")
     Integer findOldestFoundedYear();
-    @Query("SELECT MAX(t.foundedYear) FROM Team t")
-    Integer findNewestFoundedYear();
 
     // 프랜차이즈 스타 수
     @Query("SELECT MIN(t.starPlayerCount) FROM Team t")

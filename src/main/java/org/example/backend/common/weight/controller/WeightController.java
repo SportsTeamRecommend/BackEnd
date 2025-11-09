@@ -2,6 +2,7 @@ package org.example.backend.common.weight.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.example.backend.baseball.table.KboWeight;
+import org.example.backend.baseball.table.Team;
 import org.example.backend.baseball.team.Region;
 import org.example.backend.baseball.weight.KboWeightRepository;
 import org.example.backend.common.weight.dto.F1RecommendResponse;
@@ -30,6 +31,15 @@ public class WeightController {
     @PostMapping("/kbo/recommend")
     public ResponseEntity<List<Map.Entry<String, Double>>> recommendTeams(@RequestBody UserKboWeight userKboWeight, @RequestParam Region userRegion) {
         List<KboWeight> allTeams = kboWeightRepository.findAll();
+        // TODO : 디버깅 용
+        for (KboWeight allTeam : allTeams) {
+            Team team = allTeam.getTeam();
+            System.out.println(
+                    "Weight ID: " + allTeam.getId() +
+                            ", team_code(FK): " + (team != null ? team.getTeamCode() : "❌ NULL") +
+                            ", teamName: " + (team != null ? team.getTeamName() : "❌ NULL")
+            );
+        }
         List<Map.Entry<String, Double>> result =  kboWeightService.getKboWeightRanks(allTeams, userKboWeight, userRegion);
 
         return ResponseEntity.ok(result);
