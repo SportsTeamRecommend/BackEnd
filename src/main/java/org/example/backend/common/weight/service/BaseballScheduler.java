@@ -33,7 +33,7 @@ public class BaseballScheduler {
         teamRepository.saveAll(teams);
     }
 
-    @PostMapping("calculate/entity-weight")
+    @PostMapping("/calculate/entity-weight")
     public void calculateEntityWeight() {
         teamService.calculateEntityWeight();
     }

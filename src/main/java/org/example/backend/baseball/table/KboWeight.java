@@ -15,7 +15,7 @@ public class KboWeight {
     private Long id;
 
     @OneToOne
-    @JoinColumn(name = "team_code", nullable = false, unique = true)   // Team의 PK를 FK로 씀
+    @JoinColumn(name = "team_code", referencedColumnName = "teamCode", nullable = false, unique = true)
     private Team team;
 
     private double record;        // 팀 성적
