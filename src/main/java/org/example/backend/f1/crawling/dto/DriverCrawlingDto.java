@@ -7,6 +7,8 @@ public record DriverCrawlingDto(
         F1Team team,
         String dateOfBirth,
         String imageUrl,
+        String nationality,
+        String seasonPolls,
         String seasonPosition,
         String seasonPoint,
         String seasonWins,
