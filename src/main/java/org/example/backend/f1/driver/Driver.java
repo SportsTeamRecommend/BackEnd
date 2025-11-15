@@ -22,6 +22,9 @@ public class Driver {
     private String name;
     private String dateOfBirth;
     private String imageUrl;
+    private String nationality;
+    private Integer debutYear;
+    private Integer seasonPolls;
     private Integer seasonPosition;
     private Integer seasonPoint;
     private Integer seasonWins;
@@ -40,6 +43,9 @@ public class Driver {
         this.team = driverCrawlingDto.team();
         this.dateOfBirth = driverCrawlingDto.dateOfBirth();
         this.imageUrl = driverCrawlingDto.imageUrl();
+        this.nationality = driverCrawlingDto.nationality();
+        this.debutYear = null;
+        this.seasonPolls = Parser.parseAsInteger(driverCrawlingDto.seasonPolls());
         this.seasonPosition = Parser.parseAsInteger(driverCrawlingDto.seasonPosition());
         this.seasonPoint = Parser.parseAsInteger(driverCrawlingDto.seasonPoint());
         this.seasonWins = Parser.parseAsInteger(driverCrawlingDto.seasonWins());
@@ -55,6 +61,9 @@ public class Driver {
         this.team = driverCrawlingDto.team();
         this.dateOfBirth = driverCrawlingDto.dateOfBirth();
         this.imageUrl = driverCrawlingDto.imageUrl();
+        this.nationality = driverCrawlingDto.nationality();
+        this.debutYear = null;
+        this.seasonPolls = Parser.parseAsInteger(driverCrawlingDto.seasonPolls());
         this.seasonPosition = Parser.parseAsInteger(driverCrawlingDto.seasonPosition());
         this.seasonPoint = Parser.parseAsInteger(driverCrawlingDto.seasonPoint());
         this.seasonWins = Parser.parseAsInteger(driverCrawlingDto.seasonWins());
