@@ -88,7 +88,9 @@ public class DriverCrawlingService {
                 String imagePath = "//*[@id=\"maincontent\"]/div/div/div[2]/div[1]/div/div/div[4]/img";
                 WebElement imageElement = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(imagePath)));
                 String imageUrl = imageElement.getAttribute("src");
+                String nationality = driver.findElement(By.xpath("//*[@id=\"maincontent\"]/div/div/div[2]/div[1]/div/div/div[7]/div[2]/div[1]/div/div/p")).getText();
                 String dateOfBirth = driver.findElement(By.xpath("//*[@id=\"biography\"]/div/div/div/div[1]/div[2]/dl/div[1]/dd")).getText();
+                String seasonPolls = driver.findElement(By.xpath("//*[@id=\"statistics\"]/div/div/div/div/div[1]/div/div[1]/dl[2]/div[5]/dd")).getText();
                 String seasonRank = driver.findElement(By.xpath("//*[@id=\"statistics\"]/div/div/div/div/div[1]/div/div[1]/dl[1]/div[1]/dd")).getText();
                 String seasonPoints = driver.findElement(By.xpath("//*[@id=\"statistics\"]/div/div/div/div/div[1]/div/div[1]/dl[1]/div[2]/dd")).getText();
                 String seasonWins = driver.findElement(By.xpath("//*[@id=\"statistics\"]/div/div/div/div/div[1]/div/div[1]/dl[2]/div[3]/dd")).getText();
@@ -153,6 +155,8 @@ public class DriverCrawlingService {
                         f1Team,
                         dateOfBirth,
                         imageUrl,
+                        nationality,
+                        seasonPolls,
                         seasonRank,
                         seasonPoints,
                         seasonWins,
