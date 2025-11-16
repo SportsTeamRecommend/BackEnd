@@ -12,8 +12,8 @@ public class CrawlingService {
     public List<Team> crawlTeams(String[] teamCodes) {
         CrawlingManager manager = new CrawlingManager();
         try {
-            manager.addCrawler(new AverageAgeCrawler());
             manager.addCrawler(new TeamRankCrawler());
+            manager.addCrawler(new AverageAgeCrawler());
             return manager.crawlAllTeams(teamCodes);
         } finally {
             manager.close();

@@ -14,7 +14,7 @@ public class KboWeight {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "team_code", referencedColumnName = "teamCode", nullable = false, unique = true)
     private Team team;
 
