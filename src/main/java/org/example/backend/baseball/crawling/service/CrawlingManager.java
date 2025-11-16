@@ -2,7 +2,7 @@ package org.example.backend.baseball.crawling.service;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.example.backend.baseball.crawling.crawler.Crawler;
-import org.example.backend.baseball.table.Team;
+import org.example.backend.baseball.table.KboTeam;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
@@ -29,13 +29,13 @@ class CrawlingManager {
         crawlers.add(crawler);
     }
 
-    public List<Team> crawlAllTeams(String[] teamCodes) {
-        List<Team> results = new ArrayList<>();
+    public List<KboTeam> crawlAllTeams(String[] teamCodes) {
+        List<KboTeam> results = new ArrayList<>();
         for (String teamCode : teamCodes) {
-            Team combined = new Team(teamCode, "");
+            KboTeam combined = new KboTeam(teamCode, "");
             for (Crawler c : crawlers) {
                 try {
-                    Team part = c.crawlTeamData(driver, teamCode);
+                    KboTeam part = c.crawlTeamData(driver, teamCode);
                     mergeTeamData(combined, part);
                 } catch (Exception e) {
                     System.err.println("크롤링 실패: " + c.getClass().getSimpleName() + " - " + teamCode);
@@ -46,7 +46,7 @@ class CrawlingManager {
         return results;
     }
 
-    private void mergeTeamData(Team target, Team source) {
+    private void mergeTeamData(KboTeam target, KboTeam source) {
         if (source == null) return;
         if (target.getTeamName() == null || target.getTeamName().isEmpty()) {
             target.setTeamName(source.getTeamName());

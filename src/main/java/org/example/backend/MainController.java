@@ -1,8 +1,7 @@
-package org.example.backend.common.weight.controller;
+package org.example.backend;
 
 import lombok.RequiredArgsConstructor;
 import org.example.backend.baseball.table.KboWeight;
-import org.example.backend.baseball.table.Team;
 import org.example.backend.baseball.team.Region;
 import org.example.backend.baseball.weight.KboWeightRepository;
 import org.example.backend.common.weight.dto.F1RecommendResponse;
@@ -21,7 +20,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
-public class WeightController {
+public class MainController {
 
     private final KboWeightService kboWeightService;
     private final F1WeightService f1WeightService;
@@ -38,11 +37,16 @@ public class WeightController {
 
     @PostMapping("/f1/recommend")
     public ResponseEntity<List<F1RecommendResponse>> recommendF1Teams(@RequestBody UserF1RecommendRequest userF1RecommendRequest) {
-
         List<F1TeamWeight> teamWeights = f1TeamWeightRepository.findAll();
         List<F1RecommendResponse> result = f1WeightService.f1RankTeams(teamWeights, userF1RecommendRequest);
 
         return ResponseEntity.status(200).body(result);
     }
+
+//    @PostMapping("/kbo/compare")
+//    public ResponseEntity<?> compareKboTeams(@RequestBody KboWeight request) {
+//        var result = kboComparisonService.compareTeams(request);
+//        return ResponseEntity.ok(result);
+//    }
 
 }

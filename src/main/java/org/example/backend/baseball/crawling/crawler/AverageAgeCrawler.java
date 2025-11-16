@@ -1,7 +1,7 @@
 package org.example.backend.baseball.crawling.crawler;
 
 import org.example.backend.baseball.crawling.dto.CrawledPlayer;
-import org.example.backend.baseball.table.Team;
+import org.example.backend.baseball.table.KboTeam;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -20,7 +20,7 @@ import java.util.List;
 
 public class AverageAgeCrawler implements Crawler {
     @Override
-    public Team crawlTeamData(WebDriver driver, String teamCode) {
+    public KboTeam crawlTeamData(WebDriver driver, String teamCode) {
         try {
             driver.get("https://www.koreabaseball.com/Player/Register.aspx");
 
@@ -46,7 +46,7 @@ public class AverageAgeCrawler implements Crawler {
             Element header = doc.selectFirst("h4.bul_history");
             String teamName = (header != null) ? header.text().replace("선수등록명단", "").trim() : teamCode;
 
-            Team team = new Team(teamCode, teamName);
+            KboTeam kboTeam = new KboTeam(teamCode, teamName);
 
             List<Integer> ages = new ArrayList<>();
             int tableIndex = 0;
@@ -62,7 +62,7 @@ public class AverageAgeCrawler implements Crawler {
 
                     Integer age = tryParseKoreanAge(birth);
                     if (age != null) {
-                        team.getCrawledPlayers().add(new CrawledPlayer(name, age));
+                        kboTeam.getCrawledPlayers().add(new CrawledPlayer(name, age));
                         ages.add(age);
                     }
                 }
@@ -71,9 +71,9 @@ public class AverageAgeCrawler implements Crawler {
 
             if (!ages.isEmpty()) {
                 double avg = ages.stream().mapToInt(Integer::intValue).average().orElse(0);
-                team.setAverageAge(avg);
+                kboTeam.setAverageAge(avg);
             }
-            return team;
+            return kboTeam;
 
         } catch (Exception e) {
             throw new RuntimeException("평균 나이 크롤링 실패: " + teamCode, e);

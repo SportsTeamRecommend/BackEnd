@@ -1,6 +1,6 @@
 package org.example.backend.baseball.crawling.crawler;
 
-import org.example.backend.baseball.table.Team;
+import org.example.backend.baseball.table.KboTeam;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -33,7 +33,7 @@ public class TeamRankCrawler implements Crawler {
      * @param teamCode "LG","HH","OB" 등
      */
     @Override
-    public Team crawlTeamData(WebDriver driver, String teamCode) {
+    public KboTeam crawlTeamData(WebDriver driver, String teamCode) {
         try {
             // 1) 페이지 이동
             driver.get("https://www.koreabaseball.com/Record/TeamRank/TeamRankDaily.aspx");
@@ -62,15 +62,15 @@ public class TeamRankCrawler implements Crawler {
                     int rank = Integer.parseInt(rankTxt);
 
                     // ---- Team 객체 생성 & 반환 (필드명에 맞게 수정) ----
-                    Team team = new Team();
-                    team.setTeamName(teamName);
-                    team.setCurrentRank(rank);
-                    return team;
+                    KboTeam kboTeam = new KboTeam();
+                    kboTeam.setTeamName(teamName);
+                    kboTeam.setCurrentRank(rank);
+                    return kboTeam;
                 }
             }
 
             // 못 찾으면 기본값으로 반환 (원하면 예외로 바꿔도 됨)
-            Team fallback = new Team();
+            KboTeam fallback = new KboTeam();
             fallback.setTeamName(wanted);
             fallback.setCurrentRank(-1);
             return fallback;

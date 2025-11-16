@@ -3,7 +3,7 @@ package org.example.backend.util;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.example.backend.baseball.crawling.service.CrawlingService;
-import org.example.backend.baseball.table.Team;
+import org.example.backend.baseball.table.KboTeam;
 import org.example.backend.baseball.team.TeamRepository;
 import org.example.backend.baseball.team.TeamService;
 import org.example.backend.f1.crawling.service.DriverCrawlingService;
@@ -34,8 +34,8 @@ public class DataUpdateController {
     @PostMapping("/baseball/update")
     public void updateBaseballData() {
         String[] teamCodes = {"LG", "HH", "SK", "SS", "KT", "LT", "NC", "HT", "OB", "WO"};
-        List<Team> teams = crawlingService.crawlTeams(teamCodes);
-        teamRepository.saveAll(teams);
+        List<KboTeam> kboTeams = crawlingService.crawlTeams(teamCodes);
+        teamRepository.saveAll(kboTeams);
         teamService.updateTeamRank();
     }
 }
