@@ -36,7 +36,7 @@ public class KboWeightService {
 
         for (KboWeight teamWeight : kboWeights) {
             double score = calculateTeamScore(teamWeight, userKboWeight, userRegion, maxDistance);
-            scoreMap.put(teamWeight.getKboTeam().getTeamCode(), score); // teamName 써도 OK
+            scoreMap.put(teamWeight.getKboTeam().getTeamName(), score);
         }
 
         // 내림차순 정렬
