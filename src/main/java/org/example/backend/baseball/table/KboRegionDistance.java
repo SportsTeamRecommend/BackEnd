@@ -13,7 +13,7 @@ import org.example.backend.baseball.team.Region;
 @Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class RegionDistance {
+public class KboRegionDistance {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,7 +27,7 @@ public class RegionDistance {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "team_code", nullable = false)
-    private Team team;
+    private KboTeam kboTeam;
 
     @Column(nullable = false)
     private Double distanceKm;

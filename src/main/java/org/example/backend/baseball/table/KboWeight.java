@@ -14,9 +14,9 @@ public class KboWeight {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "team_code", referencedColumnName = "teamCode", nullable = false, unique = true)
-    private Team team;
+    private KboTeam kboTeam;
 
     private double record;        // 팀 성적
     private double legacy;        // 근본

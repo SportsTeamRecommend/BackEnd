@@ -2,12 +2,18 @@ package org.example.backend.baseball.weight;
 
 import lombok.RequiredArgsConstructor;
 import org.example.backend.baseball.table.KboWeight;
-import org.example.backend.baseball.table.RegionDistance;
-import org.example.backend.baseball.table.Team;
+import org.example.backend.baseball.table.KboRegionDistance;
+import org.example.backend.baseball.table.KboTeam;
 import org.example.backend.baseball.team.EntityCalculator;
 import org.example.backend.baseball.team.Region;
 import org.example.backend.baseball.team.RegionDistanceRepository;
+import org.example.backend.common.weight.dto.F1RecommendResponse;
+import org.example.backend.common.weight.dto.KboRecommendResponse;
+import org.example.backend.common.weight.dto.UserF1RecommendRequest;
 import org.example.backend.common.weight.entity.WeightType;
+import org.example.backend.f1.team.F1Team;
+import org.example.backend.f1.weight.F1TeamWeight;
+import org.example.backend.f1.weight.UserF1Weight;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -26,22 +32,20 @@ public class KboWeightService {
     private final RegionDistanceRepository regionDistanceRepository;
     private final EntityCalculator calculator;
 
-    public List<Map.Entry<String, Double>> getKboWeightRanks(
+    public List<KboRecommendResponse> getKboWeightRanks(
             List<KboWeight> kboWeights,
             UserKboWeight userKboWeight,
             Region userRegion
     ) {
-        Map<String, Double> scoreMap = new HashMap<>();
         double maxDistance = regionDistanceRepository.findMaxDistanceKm();
+        List<KboRecommendResponse> rankedList = new ArrayList<>();
 
         for (KboWeight teamWeight : kboWeights) {
             double score = calculateTeamScore(teamWeight, userKboWeight, userRegion, maxDistance);
-            scoreMap.put(teamWeight.getTeam().getTeamCode(), score); // teamName 써도 OK
+            rankedList.add(new KboRecommendResponse(teamWeight.getKboTeam().getTeamName(), score));// teamName 써도 OK
         }
 
-        // 내림차순 정렬
-        List<Map.Entry<String, Double>> rankedList = new ArrayList<>(scoreMap.entrySet());
-        rankedList.sort((a, b) -> Double.compare(b.getValue(), a.getValue()));
+        rankedList.sort((a, b) -> Double.compare(b.result(), a.result()));
         return rankedList;
     }
 
@@ -66,7 +70,7 @@ public class KboWeightService {
         totalScore += getWeightedScore(team.getGrowth(), user.getGrowthPreference(), user.getGrowthImportance());
         totalImportance += getEffectiveWeight(user.getGrowthPreference(), user.getGrowthImportance());
 
-        totalScore += getRegionWeightedScore(team.getTeam(), user.getRegionPreference(), user.getRegionImportance(), userRegion, maxDistance);
+        totalScore += getRegionWeightedScore(team.getKboTeam(), user.getRegionPreference(), user.getRegionImportance(), userRegion, maxDistance);
         totalImportance += getEffectiveWeight(user.getRegionPreference(), user.getRegionImportance());
 
         totalScore += getWeightedScore(team.getFandom(), user.getFandomPreference(), user.getFandomImportance());
@@ -105,7 +109,7 @@ public class KboWeightService {
      * - calculator.calculateRegionWeight(): 0~10 점수 반환 (가까울수록 높음)
      */
     private double getRegionWeightedScore(
-            Team team,
+            KboTeam kboTeam,
             WeightType preference,
             double importance,
             Region userRegion,
@@ -115,7 +119,7 @@ public class KboWeightService {
 
         double regionScore10 = (userRegion == null)
                 ? 5.0
-                : calculateTeamRegionWeight(team, userRegion, maxDistance); // 0~10 점수
+                : calculateTeamRegionWeight(kboTeam, userRegion, maxDistance); // 0~10 점수
 
         double normalized = regionScore10 / 10.0;
         if (preference == WeightType.LOW) {
@@ -134,11 +138,11 @@ public class KboWeightService {
     /**
      * 거리 기반 점수(0~10) 계산
      */
-    public double calculateTeamRegionWeight(Team team, Region userRegion, double maxDistance) {
-        RegionDistance distance = regionDistanceRepository
-                .findByRegionAndTeam(userRegion, team)
+    public double calculateTeamRegionWeight(KboTeam kboTeam, Region userRegion, double maxDistance) {
+        KboRegionDistance distance = regionDistanceRepository
+                .findByRegionAndTeam(userRegion, kboTeam)
                 .orElseThrow(() -> new IllegalStateException(
-                        "거리 데이터 없음: " + userRegion + " - " + team.getTeamName()
+                        "거리 데이터 없음: " + userRegion + " - " + kboTeam.getTeamName()
                 ));
 
         return calculator.calculateRegionWeight(distance.getDistanceKm(), maxDistance);

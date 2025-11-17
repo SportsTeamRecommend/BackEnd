@@ -7,7 +7,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import lombok.Getter;
-import org.example.backend.baseball.table.Team;
+import org.example.backend.baseball.table.KboTeam;
 
 @Entity
 @Getter
@@ -18,7 +18,7 @@ public class F1TeamWeight {
 
     @OneToOne
     @JoinColumn(name = "team_id", nullable = false, unique = true)
-    private Team team;
+    private KboTeam kboTeam;
 
     private double teamRecord;
     private double driverRecord;

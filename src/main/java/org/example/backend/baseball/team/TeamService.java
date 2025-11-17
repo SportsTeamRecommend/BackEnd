@@ -2,7 +2,7 @@ package org.example.backend.baseball.team;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.example.backend.baseball.table.Team;
+import org.example.backend.baseball.table.KboTeam;
 import org.example.backend.baseball.table.KboWeight;
 import org.example.backend.baseball.weight.KboWeightRepository;
 import org.springframework.stereotype.Service;
@@ -22,10 +22,10 @@ public class TeamService {
     public void updateTeamRank() {
         var teams = teamRepository.findAll();
 
-        for (Team team : teams) {
-            if (team.getPastAvgRank() != null && team.getCurrentRank() != null) {
-                double avg = (team.getPastAvgRank() * 2 + team.getCurrentRank()) / 3.0;
-                team.setAvgRank(avg);
+        for (KboTeam kboTeam : teams) {
+            if (kboTeam.getPastAvgRank() != null && kboTeam.getCurrentRank() != null) {
+                double avg = (kboTeam.getPastAvgRank() * 2 + kboTeam.getCurrentRank()) / 3.0;
+                kboTeam.setAvgRank(avg);
             }
         }
     }
@@ -48,19 +48,19 @@ public class TeamService {
 
         int maxFoundedYear = teamRepository.findOldestFoundedYear();
 
-        List<Team> teams = teamRepository.findAll();
+        List<KboTeam> kboTeams = teamRepository.findAll();
 
-        for (Team team : teams) {
+        for (KboTeam kboTeam : kboTeams) {
             // 계산된 가중치 생성
-            double record = calculator.calculateRecordWeight(team.getAvgRank());
-            double legacy = calculator.calculateLegacyWeight(team.getFoundedYear(), currentYear, maxFoundedYear);
-            double franchiseStar = calculator.calculateFranchiseStarWeight(team.getStarPlayerCount(), minStar, maxStar);
-            double growth = calculator.calculateGrowthWeight(team.getAverageAge(), minAge, maxAge);
+            double record = calculator.calculateRecordWeight(kboTeam.getAvgRank());
+            double legacy = calculator.calculateLegacyWeight(kboTeam.getFoundedYear(), currentYear, maxFoundedYear);
+            double franchiseStar = calculator.calculateFranchiseStarWeight(kboTeam.getStarPlayerCount(), minStar, maxStar);
+            double growth = calculator.calculateGrowthWeight(kboTeam.getAverageAge(), minAge, maxAge);
             double homeGround = 0.0;
-            double fandom = calculator.calculateFandomWeight(team.getFanScale(), minFan, maxFan);
+            double fandom = calculator.calculateFandomWeight(kboTeam.getFanScale(), minFan, maxFan);
 
             // 이미 해당 팀코드의 KboWeight가 존재하는지 확인
-            Optional<KboWeight> existingOpt = weightRepository.findByTeam_TeamCode(team.getTeamCode());
+            Optional<KboWeight> existingOpt = weightRepository.findByKboTeam_TeamCode(kboTeam.getTeamCode());
 
             if (existingOpt.isPresent()) { // 이후로는 update
                 KboWeight existing = existingOpt.get();
@@ -72,7 +72,7 @@ public class TeamService {
                 existing.setFandom(fandom);
             } else { // 최초에 insert
                 KboWeight newWeight = new KboWeight();
-                newWeight.setTeam(team);
+                newWeight.setKboTeam(kboTeam);
                 newWeight.setRecord(record);
                 newWeight.setLegacy(legacy);
                 newWeight.setFranchiseStar(franchiseStar);

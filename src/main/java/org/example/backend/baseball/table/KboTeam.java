@@ -13,7 +13,7 @@ import java.util.List;
 @Entity
 @Getter @Setter
 @NoArgsConstructor
-public class Team {
+public class KboTeam {
 
     @Id
     private String teamCode; // "HH", "LG", "LT", "HT", "SS", "SK", "KT", "NC", "OB", "WO"
@@ -38,7 +38,7 @@ public class Team {
     @Transient
     private List<CrawledPlayer> crawledPlayers = new ArrayList<>();
 
-    public Team(String teamCode, String teamName) {
+    public KboTeam(String teamCode, String teamName) {
         this.teamCode = teamCode;
         this.teamName = teamName;
     }
