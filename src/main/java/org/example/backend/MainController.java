@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.example.backend.baseball.table.KboWeight;
 import org.example.backend.baseball.team.Region;
 import org.example.backend.baseball.weight.KboWeightRepository;
+import org.example.backend.common.compare.CompareService;
+import org.example.backend.common.compare.KboWeightResponse;
 import org.example.backend.common.weight.dto.F1RecommendResponse;
 import org.example.backend.common.weight.dto.UserF1RecommendRequest;
 import org.example.backend.f1.weight.F1TeamWeight;
@@ -26,11 +28,12 @@ public class MainController {
     private final F1WeightService f1WeightService;
     private final F1TeamWeightRepository f1TeamWeightRepository;
     private final KboWeightRepository kboWeightRepository;
+    private final CompareService compareService;
 
     @PostMapping("/kbo/recommend")
     public ResponseEntity<List<Map.Entry<String, Double>>> recommendTeams(@RequestBody UserKboWeight userKboWeight, @RequestParam Region userRegion) {
         List<KboWeight> allTeams = kboWeightRepository.findAll();
-        List<Map.Entry<String, Double>> result =  kboWeightService.getKboWeightRanks(allTeams, userKboWeight, userRegion);
+        List<Map.Entry<String, Double>> result = kboWeightService.getKboWeightRanks(allTeams, userKboWeight, userRegion);
 
         return ResponseEntity.ok(result);
     }
@@ -43,10 +46,11 @@ public class MainController {
         return ResponseEntity.status(200).body(result);
     }
 
-//    @PostMapping("/kbo/compare")
-//    public ResponseEntity<?> compareKboTeams(@RequestBody KboWeight request) {
-//        var result = kboComparisonService.compareTeams(request);
-//        return ResponseEntity.ok(result);
-//    }
+    @PostMapping("/kbo/compare")
+    public ResponseEntity<KboWeightResponse> getKboWeight(@RequestParam String teamName) {
+
+        KboWeightResponse response = compareService.getKboWeightByTeamName(teamName);
+        return ResponseEntity.ok(response);
+    }
 
 }

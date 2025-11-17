@@ -7,4 +7,6 @@ import java.util.Optional;
 
 public interface KboWeightRepository extends JpaRepository<KboWeight, Long> {
     Optional<KboWeight> findByKboTeam_TeamCode(String teamCode);
+
+    Optional<KboWeight> findByKboTeam_TeamName(String teamName);
 }
