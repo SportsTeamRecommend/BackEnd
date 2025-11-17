@@ -7,7 +7,13 @@ import org.example.backend.baseball.table.KboTeam;
 import org.example.backend.baseball.team.EntityCalculator;
 import org.example.backend.baseball.team.Region;
 import org.example.backend.baseball.team.RegionDistanceRepository;
+import org.example.backend.common.weight.dto.F1RecommendResponse;
+import org.example.backend.common.weight.dto.KboRecommendResponse;
+import org.example.backend.common.weight.dto.UserF1RecommendRequest;
 import org.example.backend.common.weight.entity.WeightType;
+import org.example.backend.f1.team.F1Team;
+import org.example.backend.f1.weight.F1TeamWeight;
+import org.example.backend.f1.weight.UserF1Weight;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -26,22 +32,20 @@ public class KboWeightService {
     private final RegionDistanceRepository regionDistanceRepository;
     private final EntityCalculator calculator;
 
-    public List<Map.Entry<String, Double>> getKboWeightRanks(
+    public List<KboRecommendResponse> getKboWeightRanks(
             List<KboWeight> kboWeights,
             UserKboWeight userKboWeight,
             Region userRegion
     ) {
-        Map<String, Double> scoreMap = new HashMap<>();
         double maxDistance = regionDistanceRepository.findMaxDistanceKm();
+        List<KboRecommendResponse> rankedList = new ArrayList<>();
 
         for (KboWeight teamWeight : kboWeights) {
             double score = calculateTeamScore(teamWeight, userKboWeight, userRegion, maxDistance);
-            scoreMap.put(teamWeight.getKboTeam().getTeamName(), score);
+            rankedList.add(new KboRecommendResponse(teamWeight.getKboTeam().getTeamName(), score));// teamName 써도 OK
         }
 
-        // 내림차순 정렬
-        List<Map.Entry<String, Double>> rankedList = new ArrayList<>(scoreMap.entrySet());
-        rankedList.sort((a, b) -> Double.compare(b.getValue(), a.getValue()));
+        rankedList.sort((a, b) -> Double.compare(b.result(), a.result()));
         return rankedList;
     }
 
