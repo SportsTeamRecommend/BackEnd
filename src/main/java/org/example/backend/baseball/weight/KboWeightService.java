@@ -4,16 +4,11 @@ import lombok.RequiredArgsConstructor;
 import org.example.backend.baseball.table.KboWeight;
 import org.example.backend.baseball.table.KboRegionDistance;
 import org.example.backend.baseball.table.KboTeam;
-import org.example.backend.baseball.team.EntityCalculator;
+import org.example.backend.common.weight.WeightCalculator;
 import org.example.backend.baseball.team.Region;
 import org.example.backend.baseball.team.RegionDistanceRepository;
-import org.example.backend.common.weight.dto.F1RecommendResponse;
 import org.example.backend.common.weight.dto.KboRecommendResponse;
-import org.example.backend.common.weight.dto.UserF1RecommendRequest;
-import org.example.backend.common.weight.entity.WeightType;
-import org.example.backend.f1.team.F1Team;
-import org.example.backend.f1.weight.F1TeamWeight;
-import org.example.backend.f1.weight.UserF1Weight;
+import org.example.backend.common.weight.WeightType;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -30,7 +25,7 @@ import java.util.*;
 public class KboWeightService {
 
     private final RegionDistanceRepository regionDistanceRepository;
-    private final EntityCalculator calculator;
+    private final WeightCalculator calculator;
 
     public List<KboRecommendResponse> getKboWeightRanks(
             List<KboWeight> kboWeights,
@@ -145,6 +140,6 @@ public class KboWeightService {
                         "거리 데이터 없음: " + userRegion + " - " + kboTeam.getTeamName()
                 ));
 
-        return calculator.calculateRegionWeight(distance.getDistanceKm(), maxDistance);
+        return calculator.calculateKboRegion(distance.getDistanceKm(), maxDistance);
     }
 }

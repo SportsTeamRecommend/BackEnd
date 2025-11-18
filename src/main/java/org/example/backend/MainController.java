@@ -8,17 +8,16 @@ import org.example.backend.common.compare.CompareService;
 import org.example.backend.common.compare.KboWeightResponse;
 import org.example.backend.common.weight.dto.F1RecommendResponse;
 import org.example.backend.common.weight.dto.KboRecommendResponse;
-import org.example.backend.common.weight.dto.UserF1RecommendRequest;
-import org.example.backend.f1.weight.F1TeamWeight;
+import org.example.backend.f1.table.F1Weight;
 import org.example.backend.baseball.weight.UserKboWeight;
 import org.example.backend.baseball.weight.KboWeightService;
-import org.example.backend.f1.weight.F1TeamWeightRepository;
+import org.example.backend.f1.weight.F1WeightRepository;
 import org.example.backend.f1.weight.F1WeightService;
+import org.example.backend.f1.weight.UserF1Weight;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
@@ -27,7 +26,7 @@ public class MainController {
 
     private final KboWeightService kboWeightService;
     private final F1WeightService f1WeightService;
-    private final F1TeamWeightRepository f1TeamWeightRepository;
+    private final F1WeightRepository f1WeightRepository;
     private final KboWeightRepository kboWeightRepository;
     private final CompareService compareService;
 
@@ -40,14 +39,14 @@ public class MainController {
     }
 
     @PostMapping("/f1/recommend")
-    public ResponseEntity<List<F1RecommendResponse>> recommendF1Teams(@RequestBody UserF1RecommendRequest userF1RecommendRequest) {
-        List<F1TeamWeight> teamWeights = f1TeamWeightRepository.findAll();
-        List<F1RecommendResponse> result = f1WeightService.f1RankTeams(teamWeights, userF1RecommendRequest);
+    public ResponseEntity<List<F1RecommendResponse>> recommendF1Teams(@RequestBody UserF1Weight userF1Weight) {
+        List<F1Weight> teamWeights = f1WeightRepository.findAll();
+        List<F1RecommendResponse> result = f1WeightService.getF1WeightRanks(teamWeights, userF1Weight);
 
         return ResponseEntity.status(200).body(result);
     }
 
-    @PostMapping("/kbo/compare")
+    @GetMapping("/kbo/compare")
     public ResponseEntity<KboWeightResponse> getKboWeight(@RequestParam String teamName) {
 
         KboWeightResponse response = compareService.getKboWeightByTeamName(teamName);

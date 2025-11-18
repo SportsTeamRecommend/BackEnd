@@ -1,4 +1,4 @@
-package org.example.backend.common.weight.entity;
+package org.example.backend.common.weight;
 
 public enum WeightType {
     NONE,    // 상관없음
