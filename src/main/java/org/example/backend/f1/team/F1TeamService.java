@@ -83,8 +83,8 @@ public class F1TeamService {
 
             double franchiseStar = (f1 + f2) / 2.0;
 
-            double increase = (metrics.getCurrentYearPoint() - metrics.getLastYearPoint())
-                    / metrics.getLastYearPoint();
+            double ratio = (double) metrics.getCurrentYearPoint() / metrics.getLastYearPoint();
+            double increase = Math.sqrt(ratio);
             double underdog = calculator.calculateF1Underdog(increase, minIncrease, maxIncrease);
 
             double fandom = calculator.calculateF1Fandom(metrics.getFandom(), minFan, maxFan);

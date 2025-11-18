@@ -28,16 +28,18 @@ public interface F1MetricsRepository extends JpaRepository<F1Metrics, Long> {
     double findMaxFandom();
 
     @Query("""
-                SELECT MIN((m.currentYearPoint - m.lastYearPoint) * 1.0 / m.lastYearPoint)
+                SELECT MIN(SQRT(m.currentYearPoint * 1.0 / m.lastYearPoint) )
                 FROM F1Metrics m
-                WHERE m.lastYearPoint <> 0
+                WHERE m.lastYearPoint <> 0 AND m.currentYearPoint > 0
             """)
     double findMinUnderdog();
+
     @Query("""
-                SELECT MAX((m.currentYearPoint - m.lastYearPoint) * 1.0 / m.lastYearPoint)
+                SELECT MAX(SQRT(m.currentYearPoint * 1.0 / m.lastYearPoint) )
                 FROM F1Metrics m
-                WHERE m.lastYearPoint <> 0
+                WHERE m.lastYearPoint <> 0 AND m.currentYearPoint > 0
             """)
     double findMaxUnderdog();
+
 }
 

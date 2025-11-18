@@ -60,6 +60,7 @@ public class WeightCalculator {
     }
 
     public double calculateF1Underdog(double increase, double minIncrease, double maxIncrease) {
+        if (increase < 0) return 1.0;
         if (minIncrease == maxIncrease) return 5.0;
         double ratio = (increase - minIncrease) / (maxIncrease - minIncrease);
         return 1 + (ratio * 9);
