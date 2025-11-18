@@ -47,7 +47,7 @@ public class MainController {
         return ResponseEntity.status(200).body(result);
     }
 
-    @PostMapping("/kbo/compare")
+    @GetMapping("/kbo/compare")
     public ResponseEntity<KboWeightResponse> getKboWeight(@RequestParam String teamName) {
 
         KboWeightResponse response = compareService.getKboWeightByTeamName(teamName);
