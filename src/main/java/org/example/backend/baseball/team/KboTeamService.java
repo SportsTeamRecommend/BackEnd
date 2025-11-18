@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.backend.baseball.table.KboTeam;
 import org.example.backend.baseball.table.KboWeight;
 import org.example.backend.baseball.weight.KboWeightRepository;
+import org.example.backend.common.weight.WeightCalculator;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -13,14 +14,14 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class TeamService {
-    private final TeamRepository teamRepository;
-    private final EntityCalculator calculator;
+public class KboTeamService {
+    private final KboTeamRepository kboTeamRepository;
+    private final WeightCalculator calculator;
     private final KboWeightRepository weightRepository;
 
     @Transactional // dirty checking 용
     public void updateTeamRank() {
-        var teams = teamRepository.findAll();
+        var teams = kboTeamRepository.findAll();
 
         for (KboTeam kboTeam : teams) {
             if (kboTeam.getPastAvgRank() != null && kboTeam.getCurrentRank() != null) {
@@ -34,30 +35,30 @@ public class TeamService {
     * kbo_weight의 값을 계산하는 메서드
     */
     @Transactional
-    public void calculateEntityWeight() {
+    public void calculateTeamWeight() {
         int currentYear = LocalDate.now().getYear();
 
-        int minStar = teamRepository.findMinStarPlayerCount();
-        int maxStar = teamRepository.findMaxStarPlayerCount();
+        int minStar = kboTeamRepository.findMinStarPlayerCount();
+        int maxStar = kboTeamRepository.findMaxStarPlayerCount();
 
-        double minAge = teamRepository.findMinAverageAge();
-        double maxAge = teamRepository.findMaxAverageAge();
+        double minAge = kboTeamRepository.findMinAverageAge();
+        double maxAge = kboTeamRepository.findMaxAverageAge();
 
-        double minFan = teamRepository.findMinFanScale();
-        double maxFan = teamRepository.findMaxFanScale();
+        double minFan = kboTeamRepository.findMinFanScale();
+        double maxFan = kboTeamRepository.findMaxFanScale();
 
-        int maxFoundedYear = teamRepository.findOldestFoundedYear();
+        int maxFoundedYear = kboTeamRepository.findOldestFoundedYear();
 
-        List<KboTeam> kboTeams = teamRepository.findAll();
+        List<KboTeam> kboTeams = kboTeamRepository.findAll();
 
         for (KboTeam kboTeam : kboTeams) {
             // 계산된 가중치 생성
-            double record = calculator.calculateRecordWeight(kboTeam.getAvgRank());
-            double legacy = calculator.calculateLegacyWeight(kboTeam.getFoundedYear(), currentYear, maxFoundedYear);
-            double franchiseStar = calculator.calculateFranchiseStarWeight(kboTeam.getStarPlayerCount(), minStar, maxStar);
-            double growth = calculator.calculateGrowthWeight(kboTeam.getAverageAge(), minAge, maxAge);
+            double record = calculator.calculateKboRecord(kboTeam.getAvgRank());
+            double legacy = calculator.calculateKboLegacy(kboTeam.getFoundedYear(), currentYear, maxFoundedYear);
+            double franchiseStar = calculator.calculateKboFranchise(kboTeam.getStarPlayerCount(), minStar, maxStar);
+            double growth = calculator.calculateKboGrowth(kboTeam.getAverageAge(), minAge, maxAge);
             double homeGround = 0.0;
-            double fandom = calculator.calculateFandomWeight(kboTeam.getFanScale(), minFan, maxFan);
+            double fandom = calculator.calculateFandom(kboTeam.getFanScale(), minFan, maxFan);
 
             // 이미 해당 팀코드의 KboWeight가 존재하는지 확인
             Optional<KboWeight> existingOpt = weightRepository.findByKboTeam_TeamCode(kboTeam.getTeamCode());

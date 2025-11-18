@@ -4,7 +4,7 @@ import org.example.backend.baseball.table.KboTeam;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-public interface TeamRepository extends JpaRepository<KboTeam, String> {
+public interface KboTeamRepository extends JpaRepository<KboTeam, String> {
     // 창단연도
     @Query("SELECT MIN(t.foundedYear) FROM KboTeam t")
     Integer findOldestFoundedYear();

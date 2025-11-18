@@ -24,7 +24,7 @@ public class F1Team {
     private String imageUrl;
     private String videoUrl = null;
     private Integer seasonPosition;
-    private Integer seasonPoint;
+    private Double seasonPoint;
     private Integer seasonWins;
     private Integer seasonPodiums;
     private Integer totalWins;
@@ -39,7 +39,7 @@ public class F1Team {
         name = teamCrawlingDto.name();
         imageUrl = teamCrawlingDto.logoUrl();
         seasonPosition = Parser.parseAsInteger(teamCrawlingDto.seasonPosition());
-        seasonPoint = Parser.parseAsInteger(teamCrawlingDto.seasonPoint());
+        seasonPoint = Parser.parseAsDouble(teamCrawlingDto.seasonPoint());
         seasonWins = Parser.parseAsInteger(teamCrawlingDto.seasonWins());
         seasonPodiums = Parser.parseAsInteger(teamCrawlingDto.seasonPodiums());
         totalWins = Parser.parseAsInteger(teamCrawlingDto.careerWins());
@@ -52,7 +52,7 @@ public class F1Team {
         name = teamCrawlingDto.name();
         imageUrl = teamCrawlingDto.logoUrl();
         seasonPosition = Parser.parseAsInteger(teamCrawlingDto.seasonPosition());
-        seasonPoint = Parser.parseAsInteger(teamCrawlingDto.seasonPoint());
+        seasonPoint = Parser.parseAsDouble(teamCrawlingDto.seasonPoint());
         seasonWins = Parser.parseAsInteger(teamCrawlingDto.seasonWins());
         seasonPodiums = Parser.parseAsInteger(teamCrawlingDto.seasonPodiums());
         totalWins = Parser.parseAsInteger(teamCrawlingDto.careerWins());
