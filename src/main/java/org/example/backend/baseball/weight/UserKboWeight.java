@@ -2,7 +2,7 @@ package org.example.backend.baseball.weight;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.example.backend.common.weight.entity.WeightType;
+import org.example.backend.common.weight.WeightType;
 
 // TODO : Setter 삭제 필요
 @Getter @Setter

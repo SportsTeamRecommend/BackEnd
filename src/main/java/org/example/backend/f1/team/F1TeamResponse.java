@@ -8,7 +8,7 @@ public record F1TeamResponse(
         String logoUrl,
         String videoUrl,
         Integer seasonPosition,
-        Integer seasonPoint,
+        Double seasonPoint,
         Integer seasonWins,
         Integer seasonPodiums,
         Integer careerWins,

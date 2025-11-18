@@ -1,4 +1,4 @@
-package org.example.backend.f1.weight;
+package org.example.backend.f1.table;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -7,28 +7,23 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import lombok.Getter;
-import org.example.backend.baseball.table.KboTeam;
+import lombok.Setter;
 
 @Entity
-@Getter
-public class F1TeamWeight {
+@Getter @Setter
+public class F1Weight {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @OneToOne
-    @JoinColumn(name = "team_id", nullable = false, unique = true)
-    private KboTeam kboTeam;
+    @JoinColumn(name = "metrics_id", nullable = false, unique = true)
+    private F1Metrics metrics;
 
     private double teamRecord;
     private double driverRecord;
-    private double heritage;
+    private double legacy;
     private double franchiseStar;
-    private double underdogSpirit;
+    private double underdog;
     private double fandom;
-
-    public double[] toVector() {
-        return new double[]{teamRecord, driverRecord, heritage, franchiseStar, underdogSpirit, fandom};
-    }
-
 }

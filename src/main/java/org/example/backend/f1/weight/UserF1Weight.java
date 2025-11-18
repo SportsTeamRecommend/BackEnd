@@ -1,41 +1,27 @@
 package org.example.backend.f1.weight;
 
-import org.example.backend.common.weight.dto.UserF1RecommendRequest;
-import org.example.backend.common.weight.entity.WeightType;
+import lombok.Getter;
+import org.example.backend.common.weight.WeightType;
 
+@Getter
 public class UserF1Weight {
 
-    WeightType teamRecordPreference;
-    double teamRecordImportance;
+    private WeightType teamRecordPreference;
+    private double teamRecordImportance;
 
-    WeightType driverRecordPreference;
-    double driverRecordImportance;
+    private WeightType driverRecordPreference;
+    private double driverRecordImportance;
 
-    WeightType heritagePreference;
-    double heritageImportance;
+    private WeightType legacyPreference;
+    private double legacyImportance;
 
-    WeightType underdogSpiritPreference;
-    double underdogSpiritImportance;
+    private WeightType underdogPreference;
+    private double underdogImportance;
 
-    WeightType franchiseStarPreference;
-    double franchiseStarImportance;
+    private WeightType franchiseStarPreference;
+    private double franchiseStarImportance;
 
-    WeightType fandomPreference;
-    double fandomImportance;
-
-    public UserF1Weight(UserF1RecommendRequest userF1RecommendRequest) {
-        this.teamRecordPreference = userF1RecommendRequest.teamRecordPreference();
-        this.teamRecordImportance = userF1RecommendRequest.teamRecordImportance();
-        this.driverRecordPreference = userF1RecommendRequest.driverRecordPreference();
-        this.driverRecordImportance = userF1RecommendRequest.driverRecordImportance();
-        this.heritagePreference = userF1RecommendRequest.heritagePreference();
-        this.heritageImportance = userF1RecommendRequest.heritageImportance();
-        this.underdogSpiritPreference = userF1RecommendRequest.underdogSpiritPreference();
-        this.underdogSpiritImportance = userF1RecommendRequest.underdogSpiritImportance();
-        this.franchiseStarPreference = userF1RecommendRequest.franchiseStarPreference();
-        this.franchiseStarImportance = userF1RecommendRequest.franchiseStarImportance();
-        this.fandomPreference = userF1RecommendRequest.fandomPreference();
-        this.fandomImportance = userF1RecommendRequest.fandomImportance();
-    }
+    private WeightType fandomPreference;
+    private double fandomImportance;
 
 }
