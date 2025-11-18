@@ -20,7 +20,7 @@ public class F1Team {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-    private String name;
+    private String teamName;
     private String imageUrl;
     private String videoUrl = null;
     private Integer seasonPosition;
@@ -36,7 +36,7 @@ public class F1Team {
     private List<Driver> drivers = new ArrayList<>();
 
     public F1Team(F1TeamCrawlingDto teamCrawlingDto) {
-        name = teamCrawlingDto.name();
+        teamName = teamCrawlingDto.name();
         imageUrl = teamCrawlingDto.logoUrl();
         seasonPosition = Parser.parseAsInteger(teamCrawlingDto.seasonPosition());
         seasonPoint = Parser.parseAsDouble(teamCrawlingDto.seasonPoint());
@@ -49,7 +49,7 @@ public class F1Team {
     }
 
     public void updateInfo(F1TeamCrawlingDto teamCrawlingDto) {
-        name = teamCrawlingDto.name();
+        teamName = teamCrawlingDto.name();
         imageUrl = teamCrawlingDto.logoUrl();
         seasonPosition = Parser.parseAsInteger(teamCrawlingDto.seasonPosition());
         seasonPoint = Parser.parseAsDouble(teamCrawlingDto.seasonPoint());

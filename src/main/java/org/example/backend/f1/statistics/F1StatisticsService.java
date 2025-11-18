@@ -29,14 +29,14 @@ public class F1StatisticsService {
             if (!f1StatisticsRepository.existsById(team.getId())) {
                 F1Statistics newStat = new F1Statistics(team, 0.0, 0L, 0L);
                 f1StatisticsRepository.save(newStat);
-                System.out.println(team.getName() + " 팀의 통계 데이터를 새로 생성했습니다.");
+                System.out.println(team.getTeamName() + " 팀의 통계 데이터를 새로 생성했습니다.");
             }
         }
     }
 
     @Transactional
     public void addLiked(String teamName) {
-        F1Team team = f1TeamRepository.findByName(teamName);
+        F1Team team = f1TeamRepository.findByTeamName(teamName);
         F1Statistics statistics = f1StatisticsRepository.findById(team.getId()).orElseThrow();
         statistics.incrementLiked();
 
@@ -58,7 +58,7 @@ public class F1StatisticsService {
 
         return sortedStats.stream()
                 .map(stat -> new F1StatisticsResponse(
-                        stat.getTeam().getName(),
+                        stat.getTeam().getTeamName(),
                         stat.getRecommended(),
                         stat.getLikedPercentage()
                 )).toList();

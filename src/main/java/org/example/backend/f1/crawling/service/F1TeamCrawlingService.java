@@ -170,10 +170,10 @@ public class F1TeamCrawlingService {
                 .map((detail) -> detail.name())
                 .toList();
 
-        List<F1Team> teams = f1TeamRepository.findAllByNameIn(teamNames);
+        List<F1Team> teams = f1TeamRepository.findAllByTeamNameIn(teamNames);
 
         Map<String, F1Team> existingTeamMap = teams.stream()
-                .collect(Collectors.toMap(F1Team::getName, existTeam -> existTeam));
+                .collect(Collectors.toMap(F1Team::getTeamName, existTeam -> existTeam));
 
         List<F1Team> teamToSave = new ArrayList<>();
 

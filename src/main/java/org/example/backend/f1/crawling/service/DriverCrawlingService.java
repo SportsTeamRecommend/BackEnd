@@ -74,9 +74,9 @@ public class DriverCrawlingService {
                     .distinct() // 중복된 팀 이름 제거
                     .toList();
 
-            List<F1Team> f1Teams = teamRepository.findAllByNameIn(teamNames);
+            List<F1Team> f1Teams = teamRepository.findAllByTeamNameIn(teamNames);
             Map<String, F1Team> teamMap = f1Teams.stream()
-                    .collect(Collectors.toMap(F1Team::getName, team -> team));
+                    .collect(Collectors.toMap(F1Team::getTeamName, team -> team));
 
             List<DriverCrawlingDto> allDriverDetails = new ArrayList<>();
             System.out.println("\n--- 상세 정보 수집 시작 ---");

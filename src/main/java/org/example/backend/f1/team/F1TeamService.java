@@ -108,10 +108,10 @@ public class F1TeamService {
      * 팀 정보 조회
      */
     public F1TeamResponse getF1Team(String name) {
-        F1Team team = teamRepository.findByName(name);
+        F1Team team = teamRepository.findByTeamName(name);
         List<Driver> drivers = driverRepository.findAllByTeam(team);
         List<DriverResponse> driverResponses = drivers.stream().map(d -> new DriverResponse(d.getName(), d.getDateOfBirth(), d.getImageUrl(), d.getNationality(), d.getDebutYear(), d.getSeasonPolls(), d.getSeasonPosition(), d.getSeasonPoint(), d.getSeasonWins(), d.getSeasonPodiums(), d.getCareerWins(), d.getCareerPodiums(), d.getWorldChampionship())).toList();
 
-        return new F1TeamResponse(team.getName(), team.getImageUrl(), team.getVideoUrl(), team.getSeasonPosition(), team.getSeasonPoint(), team.getSeasonWins(), team.getSeasonPodiums(), team.getTotalWins(), team.getTotalPodiums(), team.getConstructorChampionship(), driverResponses);
+        return new F1TeamResponse(team.getTeamName(), team.getImageUrl(), team.getVideoUrl(), team.getSeasonPosition(), team.getSeasonPoint(), team.getSeasonWins(), team.getSeasonPodiums(), team.getTotalWins(), team.getTotalPodiums(), team.getConstructorChampionship(), driverResponses);
     }
 }

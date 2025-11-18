@@ -1,6 +1,5 @@
 package org.example.backend.f1.team;
 
-import com.sun.jna.platform.win32.COM.util.annotation.ComMethod;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.example.backend.f1.driver.Driver;
@@ -57,7 +56,7 @@ public class F1InitService {
 
             F1Metrics metrics = new F1Metrics(
                     null,
-                    team.getName(),
+                    team.getTeamName(),
                     team.getSeasonPoint(),   // TODO : 팀 누적 성적으로 수정
                     m1,
                     m2,

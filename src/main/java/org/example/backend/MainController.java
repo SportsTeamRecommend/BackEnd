@@ -5,6 +5,7 @@ import org.example.backend.baseball.table.KboWeight;
 import org.example.backend.baseball.team.Region;
 import org.example.backend.baseball.weight.KboWeightRepository;
 import org.example.backend.common.compare.CompareService;
+import org.example.backend.common.compare.F1WeightResponse;
 import org.example.backend.common.compare.KboWeightResponse;
 import org.example.backend.common.weight.dto.F1RecommendResponse;
 import org.example.backend.common.weight.dto.KboRecommendResponse;
@@ -50,6 +51,13 @@ public class MainController {
     public ResponseEntity<KboWeightResponse> getKboWeight(@RequestParam String teamName) {
 
         KboWeightResponse response = compareService.getKboWeightByTeamName(teamName);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/f1/compare")
+    public ResponseEntity<F1WeightResponse> getF1Weight(@RequestParam String teamName) {
+
+        F1WeightResponse response = compareService.getF1WeightByTeamName(teamName);
         return ResponseEntity.ok(response);
     }
 

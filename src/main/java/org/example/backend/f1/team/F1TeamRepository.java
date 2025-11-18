@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface F1TeamRepository extends JpaRepository<F1Team, Integer> {
-    F1Team findByName(String name);
+    F1Team findByTeamName(String name);
 
-    List<F1Team> findAllByNameIn(List<String> teamNames);
+    List<F1Team> findAllByTeamNameIn(List<String> teamNames);
 }
