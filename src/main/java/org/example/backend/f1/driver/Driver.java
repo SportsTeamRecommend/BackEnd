@@ -42,9 +42,6 @@ public class Driver {
         this.name = driverCrawlingDto.name();
         this.team = driverCrawlingDto.team();
         this.dateOfBirth = driverCrawlingDto.dateOfBirth();
-        this.imageUrl = driverCrawlingDto.imageUrl();
-        this.nationality = driverCrawlingDto.nationality();
-        this.debutYear = null;
         this.seasonPolls = Parser.parseAsInteger(driverCrawlingDto.seasonPolls());
         this.seasonPosition = Parser.parseAsInteger(driverCrawlingDto.seasonPosition());
         this.seasonPoint = Parser.parseAsInteger(driverCrawlingDto.seasonPoint());
@@ -60,9 +57,6 @@ public class Driver {
         this.name = driverCrawlingDto.name();
         this.team = driverCrawlingDto.team();
         this.dateOfBirth = driverCrawlingDto.dateOfBirth();
-        this.imageUrl = driverCrawlingDto.imageUrl();
-        this.nationality = driverCrawlingDto.nationality();
-        this.debutYear = null;
         this.seasonPolls = Parser.parseAsInteger(driverCrawlingDto.seasonPolls());
         this.seasonPosition = Parser.parseAsInteger(driverCrawlingDto.seasonPosition());
         this.seasonPoint = Parser.parseAsInteger(driverCrawlingDto.seasonPoint());
