@@ -1,4 +1,8 @@
 package org.example.backend.baseball.statistics;
 
-public class KboStatisticsResponse {
+public record KboStatisticsResponse(
+        String team,
+        Long recommended,
+        Double likedPercentage
+) {
 }

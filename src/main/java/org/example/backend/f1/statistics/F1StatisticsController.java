@@ -18,6 +18,12 @@ public class F1StatisticsController {
     private final F1StatisticsService f1StatisticsService;
     private final F1TeamRepository f1TeamRepository;
 
+    @PostMapping("/f1/{team}/recommended")
+    public ResponseEntity<Void> addRecommendedToTeam(@PathVariable String team) {
+        f1StatisticsService.addRecommended(team);
+        return ResponseEntity.ok().build(); // 성공 응답 반환
+    }
+
     @PostMapping("/f1/{team}/like")
     public ResponseEntity<Void> addLikeToTeam(@PathVariable String team) {
         f1StatisticsService.addLiked(team);
