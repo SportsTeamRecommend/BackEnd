@@ -1,5 +1,6 @@
 package org.example.backend.baseball.statistics;
 
+import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -9,6 +10,7 @@ import org.example.backend.baseball.table.KboTeam;
 import org.example.backend.f1.team.F1Team;
 
 @Getter
+@Entity
 public class KboStatistics {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

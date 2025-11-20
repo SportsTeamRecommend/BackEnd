@@ -1,28 +1,21 @@
 package org.example.backend.baseball.statistics;
 
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 import org.example.backend.baseball.team.KboTeamRepository;
-import org.example.backend.f1.statistics.F1StatisticsResponse;
-import org.example.backend.f1.statistics.F1StatisticsService;
-import org.example.backend.f1.team.F1TeamRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
+@RequestMapping("/api")
+@RequiredArgsConstructor
 public class KboStatisticsController {
     private final KboStatisticsService kboStatisticsService;
     private final KboTeamRepository kboTeamRepository;
-
-    @Autowired
-    public KboStatisticsController(final KboStatisticsService kboStatisticsService,
-                                   final KboTeamRepository kboTeamRepository) {
-        this.kboStatisticsService = kboStatisticsService;
-        this.kboTeamRepository = kboTeamRepository;
-    }
 
     @PostMapping("/kbo/{team}/recommended")
     public ResponseEntity<Void> addRecommendedToTeam(@PathVariable String team) {

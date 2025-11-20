@@ -3,6 +3,7 @@ package org.example.backend.util;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.example.backend.baseball.crawling.service.CrawlingService;
+import org.example.backend.baseball.statistics.KboStatisticsService;
 import org.example.backend.baseball.table.KboTeam;
 import org.example.backend.baseball.team.KboTeamRepository;
 import org.example.backend.baseball.team.KboTeamService;
@@ -23,6 +24,7 @@ public class DataUpdateController {
     private final CrawlingService crawlingService;
     private final KboTeamService kboTeamService;
     private final KboTeamRepository kboTeamRepository;
+    private final KboStatisticsService kboStatisticsService;
     private final F1StatisticsService f1StatisticsService;
     private final F1TeamService f1TeamService;
 
@@ -41,5 +43,10 @@ public class DataUpdateController {
         kboTeamRepository.saveAll(kboTeams);
         kboTeamService.updateTeamRank();
         kboTeamService.calculateTeamWeight();
+    }
+
+    @PostMapping("/baseball/statistics/init")
+    public void initStatistics() throws Exception {
+        kboStatisticsService.InitStatistics();
     }
 }
