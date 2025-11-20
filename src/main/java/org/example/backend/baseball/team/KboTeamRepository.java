@@ -26,4 +26,6 @@ public interface KboTeamRepository extends JpaRepository<KboTeam, String> {
     Double findMinFanScale();
     @Query("SELECT MAX(t.fanScale) FROM KboTeam t")
     Double findMaxFanScale();
+
+    KboTeam findByTeamName(String teamName);
 }

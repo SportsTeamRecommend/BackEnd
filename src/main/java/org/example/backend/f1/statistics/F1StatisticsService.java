@@ -44,7 +44,8 @@ public class F1StatisticsService {
     }
 
     @Transactional
-    public void addRecommended(F1Team team) {
+    public void addRecommended(String teamName) {
+        F1Team team = f1TeamRepository.findByTeamName(teamName);
         F1Statistics stats = f1StatisticsRepository.findById(team.getId())
                 .orElseGet(() -> new F1Statistics(team));
 
