@@ -1,11 +1,11 @@
-package org.example.backend.common.compare;
+package org.example.backend.f1.weight;
 
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
-import org.example.backend.f1.table.F1Metrics;
 
 @Getter
+@Builder
 @AllArgsConstructor
 public class F1WeightResponse {
 

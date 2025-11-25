@@ -1,9 +1,10 @@
-package org.example.backend.common.compare;
+package org.example.backend.baseball.weight;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 
-@Getter
+@Getter @Builder
 @AllArgsConstructor
 public class KboWeightResponse {
 
