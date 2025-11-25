@@ -25,7 +25,7 @@ public class WeightCalculator {
         return normalize10(followers, minFollower, maxFollower);
     }
 
-    public double calculateKboRecord(double avgRank) {
+    public double calculateRank(double avgRank) {
         return 11 - avgRank;
     }
 
@@ -47,7 +47,7 @@ public class WeightCalculator {
         return normalize5(maxDistance - distance, 0, maxDistance);
     }
 
-    public double calculateF1TeamRecord(double totalPoints, double min, double max) {
+    public double calculateF1TeamPoint(double totalPoints, double min, double max) {
         return normalize10(totalPoints, min, max);
     }
 
@@ -71,5 +71,9 @@ public class WeightCalculator {
 
     public double calculateF1Fandom(double followers, double min, double max) {
         return normalize10(followers, min, max);
+    }
+
+    public double calculateF1TeamRecord(double teamRank, double teamPoint) {
+        return teamRank * 0.8 + teamPoint * 0.2;
     }
 }

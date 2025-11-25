@@ -9,10 +9,10 @@ import java.util.Optional;
 public interface F1MetricsRepository extends JpaRepository<F1Metrics, Long> {
     Optional<F1Metrics> findByName(String name);
 
-    @Query("SELECT MIN(m.teamRecord) FROM F1Metrics m")
+    @Query("SELECT MIN(m.teamPoint) FROM F1Metrics m")
     int findMinTeamRecord();
 
-    @Query("SELECT MAX(m.teamRecord) FROM F1Metrics m")
+    @Query("SELECT MAX(m.teamPoint) FROM F1Metrics m")
     int findMaxTeamRecord();
 
     @Query("SELECT MIN(m.legacy) FROM F1Metrics m")

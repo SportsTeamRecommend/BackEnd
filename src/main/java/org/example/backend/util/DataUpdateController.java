@@ -33,7 +33,7 @@ public class DataUpdateController {
         f1TeamCrawlingService.crawlingTeamData();
         driverCrawlingService.crawlingDriverData();
         f1StatisticsService.InitStatistics();
-        //f1TeamService.calculateTeamWeights();
+        f1TeamService.calculateTeamWeights();
     }
 
     @PostMapping("/baseball/update")
