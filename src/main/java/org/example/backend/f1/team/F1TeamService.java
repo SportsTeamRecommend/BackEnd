@@ -61,8 +61,12 @@ public class F1TeamService {
 
             if (d1 == null || d2 == null) continue;
 
-            double teamRecord =
-                    calculator.calculateF1TeamRecord(metrics.getTeamRecord(), minTeamRec, maxTeamRec);
+            double teamRank = calculator.calculateRank(metrics.getTeamRank());
+
+            double teamPoint =
+                    calculator.calculateF1TeamPoint(metrics.getTeamPoint(), minTeamRec, maxTeamRec);
+
+            double teamRecord = calculator.calculateF1TeamRecord(teamRank, teamPoint);
 
             double driverRecord =
                     calculator.calculateF1DriverRecord(

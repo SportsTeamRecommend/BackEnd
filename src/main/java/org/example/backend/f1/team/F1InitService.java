@@ -22,26 +22,34 @@ public class F1InitService {
     @Transactional
     public void buildMetrics() {
 
-        // 1) 드라이버 메트릭스 초기화
-        driverMetricsRepository.deleteAll();
+        /*
+         * 1) DriverMetrics 업데이트
+         */
         driverRepository.findAll().forEach(driver -> {
 
-            DriverMetrics dm = new DriverMetrics(
-                    driver.getId().longValue(),
-                    driver.getName(),
+            DriverMetrics dm = driverMetricsRepository
+                    .findById(driver.getId().longValue())
+                    .orElse(DriverMetrics.builder()
+                            .id(driver.getId().longValue())
+                            .name(driver.getName())
+                            .build()
+                    );
+
+            dm.update(
                     driver.getSeasonPoint(),
-                    null,               // 프차 여부
-                    null                         // 연차
+                    null,   // 프랜차이즈 여부
+                    null    // 연차
             );
 
             driverMetricsRepository.save(dm);
         });
 
-        // 2) 팀 메트릭스 초기화
-        f1MetricsRepository.deleteAll();
+
+        /*
+         * 2) F1Metrics 업데이트
+         */
         f1TeamRepository.findAll().forEach(team -> {
 
-            // 해당 팀 드라이버 2명 가져오기
             List<Driver> teamDrivers = driverRepository.findAllByTeam(team);
 
             DriverMetrics m1 = null;
@@ -54,16 +62,22 @@ public class F1InitService {
                 m2 = driverMetricsRepository.findById(teamDrivers.get(1).getId().longValue()).orElse(null);
             }
 
-            F1Metrics metrics = new F1Metrics(
-                    null,
-                    team.getTeamName(),
-                    team.getSeasonPoint(),   // TODO : 팀 누적 성적으로 수정
+            F1Metrics metrics = f1MetricsRepository
+                    .findByName(team.getTeamName())
+                    .orElse(F1Metrics.builder()
+                            .name(team.getTeamName())
+                            .build()
+                    );
+
+            metrics.update(
+                    team.getAvgRank(),            // rank
+                    team.getSeasonPoint(),        // TODO : 누적 포인트로 수정
                     m1,
                     m2,
-                    null,             // 근본
-                    null,                   // 언더독
-                    null,                    // 팬덤
-                    team.getSeasonPoint()   // 팀 올해 성적
+                    null,                         // legacy
+                    null,                         // last year
+                    null,                         // fandom
+                    team.getSeasonPoint()         // current year
             );
 
             f1MetricsRepository.save(metrics);

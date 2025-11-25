@@ -53,7 +53,7 @@ public class KboTeamService {
 
         for (KboTeam kboTeam : kboTeams) {
             // 계산된 가중치 생성
-            double record = calculator.calculateKboRecord(kboTeam.getAvgRank());
+            double record = calculator.calculateRank(kboTeam.getAvgRank());
             double legacy = calculator.calculateKboLegacy(kboTeam.getFoundedYear(), currentYear, maxFoundedYear);
             double franchiseStar = calculator.calculateKboFranchise(kboTeam.getStarPlayerCount(), minStar, maxStar);
             double growth = calculator.calculateKboGrowth(kboTeam.getAverageAge(), minAge, maxAge);
