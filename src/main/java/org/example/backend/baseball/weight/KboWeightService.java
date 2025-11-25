@@ -140,6 +140,8 @@ public class KboWeightService {
                         "거리 데이터 없음: " + userRegion + " - " + kboTeam.getTeamName()
                 ));
 
-        return calculator.calculateKboRegion(distance.getDistanceKm(), maxDistance);
+        int bonus = (kboTeam.getHomeTown().getRegion() == userRegion) ? 5 : 0;
+
+        return bonus + calculator.calculateKboRegion(distance.getDistanceKm(), maxDistance);
     }
 }
