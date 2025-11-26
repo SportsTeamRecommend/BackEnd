@@ -1,5 +1,6 @@
 package org.example.backend.baseball.table;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,6 +18,7 @@ public class KboPlayerInfo {
     private String nationality;
     private String debutYear;
     private String dateOfBirth;
+    private String imageUrl;
 
     @ManyToOne
     KboTeamInfo team;

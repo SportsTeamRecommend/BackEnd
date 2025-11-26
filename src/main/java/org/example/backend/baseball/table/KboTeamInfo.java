@@ -28,6 +28,6 @@ public class KboTeamInfo {
 
     @OneToOne
     KboTeam kboTeam;
-    @OneToMany
+    @OneToMany(mappedBy = "team")
     List<KboPlayerInfo> players;
 }
