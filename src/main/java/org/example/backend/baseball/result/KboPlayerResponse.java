@@ -7,7 +7,8 @@ public record KboPlayerResponse(
         String name,
         String nationality,
         String debutYear,
-        String dateOfBirth
+        String dateOfBirth,
+        String imageUrl
 ) {
     public KboPlayerResponse(KboPlayerInfo kboPlayerInfo) {
         this(
@@ -15,7 +16,8 @@ public record KboPlayerResponse(
                 kboPlayerInfo.getName(),
                 kboPlayerInfo.getNationality(),
                 kboPlayerInfo.getDebutYear(),
-                kboPlayerInfo.getDateOfBirth()
+                kboPlayerInfo.getDateOfBirth(),
+                kboPlayerInfo.getImageUrl()
         );
     }
 }
