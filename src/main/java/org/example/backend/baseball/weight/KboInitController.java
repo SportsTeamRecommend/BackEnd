@@ -20,7 +20,7 @@ public class KboInitController {
     private final CrawlingService crawlingService;
     private final KboTeamRepository kboTeamRepository;
 
-    @PostMapping("/crawling")
+    @GetMapping("/crawling")
     public void runCrawling() {
         String[] teamCodes = {"LG", "HH", "SK", "SS", "KT", "LT", "NC", "HT", "OB", "WO"};
         List<KboTeam> kboTeams = crawlingService.crawlTeams(teamCodes);
