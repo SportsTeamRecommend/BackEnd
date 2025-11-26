@@ -7,8 +7,10 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import java.util.List;
+import lombok.Getter;
 
 @Entity
+@Getter
 public class KboTeamInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -28,8 +30,4 @@ public class KboTeamInfo {
     KboTeam kboTeam;
     @OneToMany
     List<KboPlayerInfo> kboPlayers;
-
-
-
-
 }
