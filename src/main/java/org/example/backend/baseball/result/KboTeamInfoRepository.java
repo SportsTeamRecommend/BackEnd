@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface KboTeamInfoRepository extends JpaRepository<KboPlayerInfo, Integer> {
+public interface KboTeamInfoRepository extends JpaRepository<KboTeamInfo, Integer> {
     KboTeamInfo findByName(String name);
 }
