@@ -29,5 +29,5 @@ public class KboTeamInfo {
     @OneToOne
     KboTeam kboTeam;
     @OneToMany
-    List<KboPlayerInfo> kboPlayers;
+    List<KboPlayerInfo> players;
 }

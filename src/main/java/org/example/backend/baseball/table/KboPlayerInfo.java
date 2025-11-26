@@ -19,5 +19,5 @@ public class KboPlayerInfo {
     private String dateOfBirth;
 
     @ManyToOne
-    KboTeamInfo kboTeamInfo;
+    KboTeamInfo team;
 }
