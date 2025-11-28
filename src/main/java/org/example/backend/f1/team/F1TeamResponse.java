@@ -5,6 +5,7 @@ import org.example.backend.f1.driver.DriverResponse;
 
 public record F1TeamResponse(
         String name,
+        String description,
         String logoUrl,
         String videoUrl,
         Integer seasonPosition,

@@ -7,6 +7,7 @@ public record KboResultResponse(
         long id,
         String name,
         String description,
+        String videoUrl,
         int leagueWins,
         int koreaSeasonWins,
         int postSeason,
@@ -21,6 +22,7 @@ public record KboResultResponse(
         this(
                 kboTeamInfo.getId(),
                 kboTeamInfo.getName(),
+                kboTeamInfo.getVideoUrl(),
                 kboTeamInfo.getDescription(),
                 kboTeamInfo.getLeagueWins(),
                 kboTeamInfo.getKoreaSeasonWins(),
