@@ -116,6 +116,18 @@ public class F1TeamService {
         List<Driver> drivers = driverRepository.findAllByTeam(team);
         List<DriverResponse> driverResponses = drivers.stream().map(d -> new DriverResponse(d.getName(), d.getDateOfBirth(), d.getImageUrl(), d.getNationality(), d.getDebutYear(), d.getSeasonPolls(), d.getSeasonPosition(), d.getSeasonPoint(), d.getSeasonWins(), d.getSeasonPodiums(), d.getCareerWins(), d.getCareerPodiums(), d.getWorldChampionship())).toList();
 
-        return new F1TeamResponse(team.getTeamName(), team.getImageUrl(), team.getVideoUrl(), team.getSeasonPosition(), team.getSeasonPoint(), team.getSeasonWins(), team.getSeasonPodiums(), team.getTotalWins(), team.getTotalPodiums(), team.getConstructorChampionship(), driverResponses);
+        return new F1TeamResponse(
+                team.getTeamName(),
+                team.getImageUrl(),
+                team.getVideoUrl(),
+                team.getDescription(),
+                team.getSeasonPosition(),
+                team.getSeasonPoint(),
+                team.getSeasonWins(),
+                team.getSeasonPodiums(),
+                team.getTotalWins(),
+                team.getTotalPodiums(),
+                team.getConstructorChampionship(),
+                driverResponses);
     }
 }
