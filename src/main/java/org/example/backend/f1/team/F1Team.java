@@ -23,6 +23,7 @@ public class F1Team {
     private String teamName;
     private String imageUrl;
     private String videoUrl = null;
+    private String description = null;
     private Integer seasonPosition;
     private Double seasonPoint;
     private Integer seasonWins;

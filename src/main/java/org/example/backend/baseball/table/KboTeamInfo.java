@@ -16,6 +16,7 @@ public class KboTeamInfo {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     private String name;
+    private String videoUrl;
     private String description;
     private int leagueWins;
     private int koreaSeasonWins;
