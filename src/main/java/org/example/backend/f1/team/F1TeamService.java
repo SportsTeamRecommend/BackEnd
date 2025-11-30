@@ -118,9 +118,9 @@ public class F1TeamService {
 
         return new F1TeamResponse(
                 team.getTeamName(),
+                team.getDescription(),
                 team.getImageUrl(),
                 team.getVideoUrl(),
-                team.getDescription(),
                 team.getSeasonPosition(),
                 team.getSeasonPoint(),
                 team.getSeasonWins(),
