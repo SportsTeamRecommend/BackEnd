@@ -22,8 +22,8 @@ public record KboResultResponse(
         this(
                 kboTeamInfo.getId(),
                 kboTeamInfo.getName(),
-                kboTeamInfo.getVideoUrl(),
                 kboTeamInfo.getDescription(),
+                kboTeamInfo.getVideoUrl(),
                 kboTeamInfo.getLeagueWins(),
                 kboTeamInfo.getKoreaSeasonWins(),
                 kboTeamInfo.getPostSeason(),
